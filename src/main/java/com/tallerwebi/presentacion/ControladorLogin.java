@@ -33,6 +33,7 @@ public class ControladorLogin {
 
     @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
+
         ModelMap model = new ModelMap();
 
         Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
@@ -45,27 +46,38 @@ public class ControladorLogin {
         return new ModelAndView("login", model);
     }
 
-    @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-    public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
+    //Metodos del registro
+
+    @RequestMapping(path = "/registro", method = RequestMethod.GET)
+    public ModelAndView irAVistaRegistroConUnUsuarioVacio() {
+
         ModelMap model = new ModelMap();
+
+        model.put("DatosUsuarioRegistro", new DatosUsuarioRegistro());
+
+        return new ModelAndView("registro", model);
+    }
+
+    //Hacer test para que las contraseñas coincidan
+    @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
+    public ModelAndView registrarme(@ModelAttribute("datosRegistro") DatosUsuarioRegistro datosRegistro) {
+
+        ModelMap model = new ModelMap();
+
         try{
-            servicioLogin.registrar(usuario);
+            servicioLogin.registrar(datosRegistro);
         } catch (UsuarioExistente e){
             model.put("error", "El usuario ya existe");
-            return new ModelAndView("nuevo-usuario", model);
+            return new ModelAndView("registro", model);
         } catch (Exception e){
             model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("nuevo-usuario", model);
+            return new ModelAndView("registro", model);
         }
+
         return new ModelAndView("redirect:/login");
     }
 
-    @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
-    public ModelAndView nuevoUsuario() {
-        ModelMap model = new ModelMap();
-        model.put("usuario", new Usuario());
-        return new ModelAndView("nuevo-usuario", model);
-    }
+
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView irAHome() {

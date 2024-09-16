@@ -1,5 +1,6 @@
 body {
-  padding-top: 5rem;
+ /* padding-top: 5rem;*/
+
 }
 .starter-template {
   padding: 3rem 1.5rem;
@@ -8,10 +9,6 @@ body {
 
 h1{
 	color:#0000FF;
-}
-
-h2{
-	color:#FF0000;
 }
 
 .navbar-brand{

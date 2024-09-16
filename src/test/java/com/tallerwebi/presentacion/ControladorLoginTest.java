@@ -17,7 +17,8 @@ import static org.mockito.Mockito.*;
 public class ControladorLoginTest {
 
 	private ControladorLogin controladorLogin;
-	private Usuario usuarioMock;
+	//private Usuario usuarioMock;
+	private DatosUsuarioRegistro usuarioMock;
 	private DatosLogin datosLoginMock;
 	private HttpServletRequest requestMock;
 	private HttpSession sessionMock;
@@ -27,7 +28,7 @@ public class ControladorLoginTest {
 	@BeforeEach
 	public void init(){
 		datosLoginMock = new DatosLogin("dami@unlam.com", "123");
-		usuarioMock = mock(Usuario.class);
+		usuarioMock = mock(DatosUsuarioRegistro.class);///
 		when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
 		requestMock = mock(HttpServletRequest.class);
 		sessionMock = mock(HttpSession.class);

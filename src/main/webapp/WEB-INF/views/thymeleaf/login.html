@@ -4,45 +4,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Taller Web I</title>
+    <title>Inicio de sesion</title>
 
     <!-- Boostrap core css -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">UNLAM</a>
-</nav>
-
 <main role="main" class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body custom-card-body">
+                    <form th:action="@{/validar-login}" method="post" th:object="${datosLogin}">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input th:field="*{email}" type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label  for="password" class="form-label">Contraseña</label>
+                            <input th:field="*{password}" type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                    </form>
+                </div>
 
-    <div class = "container">
-        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <form action="#" th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
-                <h3 class="form-signin-heading">Taller Web I</h3>
-                <hr class="colorgraph"><br>
-
-                <input th:field="*{email}" id="email" type="email" class="form-control" required/>
-                <input th:field="*{password}" type="password" id="password" class="form-control" required/>
-
-                <button id="btn-login" class="btn btn-lg btn-primary btn-block" Type="Submit">Login</button>
-
+                <div class="card-footer text-center">
+                    <small>¿No tienes una cuenta? <a th:href="@{/registro}">Regístrate aquí</a></small>
+                </div>
                 <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
-                </p>
-            </form>
-            <a id="ir-a-registrarme" href="nuevo-usuario">Registrarme</a>
+
+                <div th:if="${param.logout}">
+                    <p class="alert alert-info">Sesión cerrada correctamente.</p>
+                </div>
+
+            </div>
         </div>
     </div>
 </main>
-<!-- /.container -->
-
-<!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
