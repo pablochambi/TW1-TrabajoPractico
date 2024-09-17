@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Inicio de sesion</title>
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+
+</head>
+
+<body>
+
+<main role="main" class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body custom-card-body">
+                    <form th:action="@{/validar-miLogin}" method="post" th:object="${datosLogin}">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input th:field="*{email}" type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label  for="password" class="form-label">Contraseña</label>
+                            <input th:field="*{password}" type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center">
+                    <small>¿No tienes una cuenta? <a th:href="@{/registro1}">Regístrate aquí</a></small>
+                </div>
+                <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
+
+                <div th:if="${param.logout}">
+                    <p class="alert alert-info">Sesión cerrada correctamente.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
