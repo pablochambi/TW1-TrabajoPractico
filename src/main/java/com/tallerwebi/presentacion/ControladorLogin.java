@@ -61,7 +61,7 @@ public class ControladorLogin {
         return new ModelAndView("miRegistro", model);
     }
 
-    @RequestMapping(path = "/registrarme1", method = RequestMethod.POST)
+    @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
     public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
         ModelMap model = new ModelMap();
         try{
