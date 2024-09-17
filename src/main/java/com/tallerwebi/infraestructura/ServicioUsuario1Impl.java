@@ -1,8 +1,16 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.infraestructura;
 
+import com.tallerwebi.dominio.RepositorioUsuario1;
+import com.tallerwebi.dominio.ServicioUsuario1;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Service("serviciousuario1")
+@Transactional
 public class ServicioUsuario1Impl implements ServicioUsuario1 {
 
     private RepositorioUsuario1 repositorioUsuario1;

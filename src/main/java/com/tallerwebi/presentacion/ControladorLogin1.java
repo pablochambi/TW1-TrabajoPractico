@@ -71,8 +71,6 @@ public class ControladorLogin1 {
         return new ModelAndView("redirect:/milogin");
     }
 
-
-
     @RequestMapping(path = "/miHome", method = RequestMethod.GET)
     public ModelAndView irAHome() {
         return new ModelAndView("miHome");
