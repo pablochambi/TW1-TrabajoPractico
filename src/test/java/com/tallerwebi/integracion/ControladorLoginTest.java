@@ -31,46 +31,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SpringWebTestConfig.class, HibernateTestConfig.class})
 public class ControladorLoginTest {
 
-	private Usuario usuarioMock;
+    private Usuario usuarioMock;
 
-	@Autowired
-	private WebApplicationContext wac;
-	private MockMvc mockMvc;
-
-
-	@BeforeEach
-	public void init(){
-		usuarioMock = mock(Usuario.class);
-		when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-	}
-
-//	@Test
-//	public void debeRetornarLaPaginaLoginCuandoSeNavegaALaRaiz() throws Exception {
-//
-//		MvcResult result = this.mockMvc.perform(get("/"))
-//				/*.andDo(print())*/
-//				.andExpect(status().is3xxRedirection())
-//				.andReturn();
-//
-//		ModelAndView modelAndView = result.getModelAndView();
-//        assert modelAndView != null;
-//		assertThat("redirect:/login", equalToIgnoringCase(Objects.requireNonNull(modelAndView.getViewName())));
-//		assertThat(true, is(modelAndView.getModel().isEmpty()));
-//	}
+    @Autowired
+    private WebApplicationContext wac;
+    private MockMvc mockMvc;
 
 
-//	@Test
-//	public void debeRetornarLaPaginaLoginCuandoSeNavegaALLogin() throws Exception {
-//
-//		MvcResult result = this.mockMvc.perform(get("/login"))
-//				.andExpect(status().isOk())
-//				.andReturn();
-//
-//		ModelAndView modelAndView = result.getModelAndView();
-//        assert modelAndView != null;
-//        assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
-//		assertThat(modelAndView.getModel().get("datosLogin").toString(),  containsString("com.tallerwebi.presentacion.DatosLogin"));
-//
-//	}
+    @BeforeEach
+    public void init(){
+        usuarioMock = mock(Usuario.class);
+        when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
+
+    @Test
+    public void debeRetornarLaPaginaLoginCuandoSeNavegaALaRaiz() throws Exception {
+
+        MvcResult result = this.mockMvc.perform(get("/"))
+                /*.andDo(print())*/
+                .andExpect(status().is3xxRedirection())
+                .andReturn();
+
+        ModelAndView modelAndView = result.getModelAndView();
+        assert modelAndView != null;
+        assertThat("redirect:/milogin", equalToIgnoringCase(Objects.requireNonNull(modelAndView.getViewName())));
+        assertThat(true, is(modelAndView.getModel().isEmpty()));
+    }
+
+    @Test
+    public void debeRetornarLaPaginaLoginCuandoSeNavegaALLogin() throws Exception {
+
+        MvcResult result = this.mockMvc.perform(get("/milogin"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView modelAndView = result.getModelAndView();
+        assert modelAndView != null;
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("milogin"));
+        assertThat(modelAndView.getModel().get("datosLogin").toString(),  containsString("com.tallerwebi.presentacion.DatosLogin"));
+
+    }
+
+
+
 }
+

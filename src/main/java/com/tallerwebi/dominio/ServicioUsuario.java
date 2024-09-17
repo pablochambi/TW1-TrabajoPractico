@@ -1,5 +1,5 @@
 package com.tallerwebi.dominio;
 
-public interface ServicioUsuario1 {
+public interface ServicioUsuario {
     Usuario registrar(String email, String password);
 }

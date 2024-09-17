@@ -2,8 +2,8 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-import com.tallerwebi.infraestructura.RepositorioUsuario1Impl;
-import com.tallerwebi.infraestructura.ServicioUsuario1Impl;
+import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
+import com.tallerwebi.infraestructura.ServicioUsuarioImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,11 +12,11 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class ServicioUsuario1Test {
+public class ServicioUsuarioTest {
 
-    RepositorioUsuario1 repositorioUsuario1 = mock(RepositorioUsuario1Impl.class);
+    RepositorioUsuario repositorioUsuario = mock(RepositorioUsuarioImpl.class);
 
-    private ServicioUsuario1 servicioUsuario1 = new ServicioUsuario1Impl(repositorioUsuario1);
+    private ServicioUsuario servicioUsuario = new ServicioUsuarioImpl(repositorioUsuario);
 
     @Test
     public void siExisteEmailYPasswordElRegistroEsExitoso() throws PasswordLongitudIncorrecta, UsuarioExistente {
@@ -25,12 +25,12 @@ public class ServicioUsuario1Test {
     }
 
     private Usuario whenRegistroUsuario(String email, String password){
-        return servicioUsuario1.registrar(email,password);
+        return servicioUsuario.registrar(email,password);
     }
 
     private void thenElRegistroEsExitoso(Usuario usuarioCreado) {
         assertThat(usuarioCreado, notNullValue());
-        verify(repositorioUsuario1, times(1)).guardar(usuarioCreado);
+        verify(repositorioUsuario, times(1)).guardar(usuarioCreado);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class ServicioUsuario1Test {
     public void siExisteUsuarioConMismoEmailElRegistroFalla() throws PasswordLongitudIncorrecta, UsuarioExistente {
         //given
         givenExisteUnUsuario("pablo@gmail.com", "12345");
-        when(repositorioUsuario1.buscar("pablo@gmail.com")).thenReturn(new Usuario());
+        when(repositorioUsuario.buscarUsuarioPorEmail("pablo@gmail.com")).thenReturn(new Usuario());
 
         //when
         Usuario usuarioCreado = whenRegistroUsuario("pablo@gmail.com","98989");

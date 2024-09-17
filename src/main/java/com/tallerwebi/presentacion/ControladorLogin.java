@@ -1,6 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioLogin1;
+import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +15,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 @Controller
-public class ControladorLogin1 {
+public class ControladorLogin {
 
 
-    private ServicioLogin1 servicioLogin1;
+    private ServicioLogin servicioLogin;
 
     @Autowired
-    public ControladorLogin1(ServicioLogin1 servicioLogin1) {
-        this.servicioLogin1 = servicioLogin1;
+    public ControladorLogin(ServicioLogin servicioLogin) {
+        this.servicioLogin = servicioLogin;
     }
 
     //Redireccion de vista por defecto (http://localhost:8080/spring/)
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
-        return new ModelAndView("redirect:/login");
+        return new ModelAndView("redirect:/milogin");
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/milogin")
     public ModelAndView irALogin() {
         ModelMap modelo = new ModelMap();
         modelo.put("datosLogin", new DatosLogin());
@@ -42,7 +42,7 @@ public class ControladorLogin1 {
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        Usuario usuarioBuscado = servicioLogin1.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
+        Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
             return new ModelAndView("redirect:/miHome");
@@ -65,7 +65,7 @@ public class ControladorLogin1 {
     public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
         ModelMap model = new ModelMap();
         try{
-            servicioLogin1.registrar(usuario);
+            servicioLogin.registrar(usuario);
         } catch (UsuarioExistente e){
             model.put("error", "El usuario ya existe");
             return new ModelAndView("miRegistro", model);
