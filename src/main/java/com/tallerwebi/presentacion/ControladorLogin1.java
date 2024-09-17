@@ -21,13 +21,18 @@ public class ControladorLogin1 {
     private ServicioLogin1 servicioLogin1;
 
     @Autowired
-    public ControladorLogin1(ServicioLogin1 servicioLogin1){
+    public ControladorLogin1(ServicioLogin1 servicioLogin1) {
         this.servicioLogin1 = servicioLogin1;
     }
 
-    @RequestMapping("/milogin")
-    public ModelAndView irALogin() {
+    //Redireccion de vista por defecto (http://localhost:8080/spring/)
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ModelAndView inicio() {
+        return new ModelAndView("redirect:/login");
+    }
 
+    @RequestMapping("/login")
+    public ModelAndView irALogin() {
         ModelMap modelo = new ModelMap();
         modelo.put("datosLogin", new DatosLogin());
         return new ModelAndView("miLogin", modelo);
@@ -49,11 +54,11 @@ public class ControladorLogin1 {
 
     //Metodos de registro
 
-    @RequestMapping(path = "/registro1", method = RequestMethod.GET)
+    @RequestMapping(path = "/registro", method = RequestMethod.GET)
     public ModelAndView nuevoUsuario() {
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
-        return new ModelAndView("registro", model);
+        return new ModelAndView("miRegistro", model);
     }
 
     @RequestMapping(path = "/registrarme1", method = RequestMethod.POST)
@@ -63,10 +68,10 @@ public class ControladorLogin1 {
             servicioLogin1.registrar(usuario);
         } catch (UsuarioExistente e){
             model.put("error", "El usuario ya existe");
-            return new ModelAndView("registro", model);
+            return new ModelAndView("miRegistro", model);
         } catch (Exception e){
             model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("registro", model);
+            return new ModelAndView("miRegistro", model);
         }
         return new ModelAndView("redirect:/milogin");
     }
@@ -76,9 +81,6 @@ public class ControladorLogin1 {
         return new ModelAndView("miHome");
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView inicio() {
-        return new ModelAndView("redirect:/miLogin");
-    }
+
 
 }
