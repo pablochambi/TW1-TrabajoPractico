@@ -27,15 +27,16 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="form-container">
-          <form id="registro-form" th:action="@{#}" th:object="${DatosUsuarioRegistro}" method="post">
+          <form id="registro-form" th:action="@{registrarme1}" th:object="${usuario}" method="post">
             <h2 class="mb-3">Registro</h2>
+
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input th:field="*{nombre}" type="text" class="form-control" id="nombre" name="nombre"  required>
+              <input  type="text" class="form-control" id="nombre" name="nombre"  required>
             </div>
             <div class="mb-3">
               <label for="apellido" class="form-label">Apellido</label>
-              <input th:field="*{apellido}" type="text" class="form-control" id="apellido" name="apellido"  required>
+              <input  type="text" class="form-control" id="apellido" name="apellido"  required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo Electrónico:</label>
@@ -45,9 +46,10 @@
               <label for="password" class="form-label">Contraseña:</label>
               <input  th:field="*{password}" type="password" class="form-control" id="password" name="password" required>
             </div>
+
             <div class="mb-3">
               <label for="c_password" class="form-label">Confirmar Contraseña:</label>
-              <input th:field="*{c_password}" type="password" class="form-control" id="c_password" name="c_password" required>
+              <input  type="password" class="form-control" id="c_password" name="c_password" required>
             </div>
 
             <!-- Mensaje de error si las contraseñas no coinciden -->
@@ -57,11 +59,11 @@
 
             <div class="mb-3">
               <label for="username" class="form-label">Nombre de Usuario:</label>
-              <input th:field="*{username}" type="text" class="form-control" id="username" name="username" required>
+              <input type="text" class="form-control" id="username" name="username" required>
             </div>
             <button type="submit" class="btn btn-primary">Registrarse</button>
             <div class="card-footer text-center">
-              <small>¿Ya tienes cuenta? <a th:href="@{/login}">Loggeate</a></small>
+              <small>¿Ya tienes cuenta? <a th:href="@{/miLogin}">Loggeate</a></small>
             </div>
             <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
           </form>
@@ -69,24 +71,6 @@
       </div>
     </div>
   </div>
-
-<!--
-  <div class = "container">
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-      <form action="#" th:action="@{/registrarme}" method="POST" th:object="${usuario}">
-        <h3 class="form-signin-heading">Nuevo Usuario</h3>
-        <hr class="colorgraph"><br>
-
-        <input th:field="*{email}" id="email" class="form-control" required/>
-        <input th:field="*{password}" type="password" id="password" class="form-control" required/>
-
-        <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
-        <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
-        </p>
-      </form>
-
-    </div>
-  </div>-->
 
 </main>
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>

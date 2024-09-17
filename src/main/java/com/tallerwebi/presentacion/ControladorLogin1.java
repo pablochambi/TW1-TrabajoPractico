@@ -1,9 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioLogin1;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,61 +12,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import javax.servlet.http.HttpServletRequest;
-
 @Controller
-public class ControladorLogin {
+public class ControladorLogin1 {
 
-    private ServicioLogin servicioLogin;
+
+    private ServicioLogin1 servicioLogin1;
 
     @Autowired
-    public ControladorLogin(ServicioLogin servicioLogin){
-        this.servicioLogin = servicioLogin;
+    public ControladorLogin1(ServicioLogin1 servicioLogin1){
+        this.servicioLogin1 = servicioLogin1;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/milogin")
     public ModelAndView irALogin() {
 
         ModelMap modelo = new ModelMap();
         modelo.put("datosLogin", new DatosLogin());
-        return new ModelAndView("login", modelo);
+        return new ModelAndView("miLogin", modelo);
     }
 
-    @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
+    @RequestMapping(path = "/validar-miLogin", method = RequestMethod.POST)
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
-
         ModelMap model = new ModelMap();
 
-        Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
+        Usuario usuarioBuscado = servicioLogin1.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-            return new ModelAndView("redirect:/home");
+            return new ModelAndView("redirect:/miHome");
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
-        return new ModelAndView("login", model);
+        return new ModelAndView("miLogin", model);
     }
 
-    //Metodos del registro
+    //Metodos de registro
 
-    @RequestMapping(path = "/registro", method = RequestMethod.GET)
-    public ModelAndView irAVistaRegistroConUnUsuarioVacio() {
-
+    @RequestMapping(path = "/registro1", method = RequestMethod.GET)
+    public ModelAndView nuevoUsuario() {
         ModelMap model = new ModelMap();
-
-        model.put("DatosUsuarioRegistro", new DatosUsuarioRegistro());
-
+        model.put("usuario", new Usuario());
         return new ModelAndView("registro", model);
     }
 
-    //Hacer test para que las contraseñas coincidan
-    @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-    public ModelAndView registrarme(@ModelAttribute("datosRegistro") DatosUsuarioRegistro datosRegistro) {
-
+    @RequestMapping(path = "/registrarme1", method = RequestMethod.POST)
+    public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
         ModelMap model = new ModelMap();
-
         try{
-            servicioLogin.registrar(datosRegistro);
+            servicioLogin1.registrar(usuario);
         } catch (UsuarioExistente e){
             model.put("error", "El usuario ya existe");
             return new ModelAndView("registro", model);
@@ -73,21 +68,19 @@ public class ControladorLogin {
             model.put("error", "Error al registrar el nuevo usuario");
             return new ModelAndView("registro", model);
         }
-
-        return new ModelAndView("redirect:/login");
+        return new ModelAndView("redirect:/milogin");
     }
 
 
 
-    @RequestMapping(path = "/home", method = RequestMethod.GET)
+    @RequestMapping(path = "/miHome", method = RequestMethod.GET)
     public ModelAndView irAHome() {
-        return new ModelAndView("home");
+        return new ModelAndView("miHome");
     }
-/*
+
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
-        return new ModelAndView("redirect:/login");
-    }*/
+        return new ModelAndView("redirect:/miLogin");
+    }
 
 }
-
