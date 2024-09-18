@@ -16,15 +16,40 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">UNLAM</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top d-flex justify-content-between">
+  <p class="navbar-brand"> Trabajo Practico </p>
+  <a class="navbar-brand d-block" href="#">UNLAM</a>
 </nav>
 
 <main role="main" class="container">
-  <div class = "container">
-    <h1>Bienvenidos a Taller Web 1 - Trabajo practico</h1>
-
-    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  <div class = "container text-center">
+    <h1>Bienvenidos a Subliaccion</h1>
+    <!-- Nueva vista de pedidoformulario -->
+    <a href="#" class="my-4 btn btn-lg btn-primary btn-block w-50 fs-5">
+      Realiza tu pedido
+    </a>
+    <h3 class="my-4">Historial de pedidos</h3>
+    <!-- EJEMPLO DE PEDIDO -->
+    <div class="bg-light p-2 my-3">
+      <div>
+        <div class="d-flex justify-content-between">
+          <p class="fw-bold">Cliente: </p>
+          <p class="fw-bold">Codigo: </p>
+          <p class="fw-bold">Fecha: </p>
+        </div>
+        <div>
+          <p>
+            Solo calandra o solo papel
+          </p>
+          <div>
+            <p>
+              Archivos
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a th:href="@{/milogin}" class="btn btn-lg btn-primary btn-block">Volver</a>
   </div>
 </main>
 <!-- /.container -->
