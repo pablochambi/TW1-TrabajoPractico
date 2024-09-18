@@ -46,7 +46,8 @@ public class ControladorLogin {
 
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-            return new ModelAndView("redirect:/miHome");
+            model.addAttribute("email", usuarioBuscado.getEmail());
+            return new ModelAndView("miHome",model);
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
@@ -54,8 +55,10 @@ public class ControladorLogin {
     }
 
     @RequestMapping(path = "/miHome", method = RequestMethod.GET)
-    public ModelAndView irAHome() {
-        return new ModelAndView("miHome");
+    public ModelAndView irAHome(@ModelAttribute("email") String email) {
+        ModelMap modelo = new ModelMap();
+        modelo.addAttribute("email", email);
+        return new ModelAndView("miHome", modelo);
     }
 
     @RequestMapping(path = "/registro", method = RequestMethod.GET)
