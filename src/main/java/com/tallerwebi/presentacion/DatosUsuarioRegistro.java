@@ -20,6 +20,7 @@ public class DatosUsuarioRegistro {
 
     public DatosUsuarioRegistro(){}
 
+
     public String getEmail() {
         return email;
     }
