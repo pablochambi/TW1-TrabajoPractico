@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Taller Web I</title>
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/telas.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<main>
+    <section class="catalog-container">
+
+        <div class="fabric-card">
+            <img src="https://via.placeholder.com/400x300?text=Tela+1" alt="Tela 1" class="fabric-img">
+            <div class="fabric-details">
+                <h2 class="fabric-name">Tela Microfibra</h2>
+                <p class="fabric-description">Suave al tacto y fácil de mantener.</p>
+                <p class="price">$3000 por metro</p>
+            </div>
+        </div>
+
+
+        <div class="fabric-card">
+            <img src="https://via.placeholder.com/400x300?text=Tela+2" alt="Tela 2" class="fabric-img">
+            <div class="fabric-details">
+                <h2 class="fabric-name">Tela Poliéster</h2>
+                <p class="fabric-description">Ligera y resistente.</p>
+                <p class="price">$2500 por metro</p>
+            </div>
+        </div>
+
+
+        <div class="fabric-card">
+            <img src="https://via.placeholder.com/400x300?text=Tela+3" alt="Tela 3" class="fabric-img">
+            <div class="fabric-details">
+                <h2 class="fabric-name">Tela Algodón</h2>
+                <p class="fabric-description">Transpirable y cómoda.</p>
+                <p class="price">$4000 por metro</p>
+            </div>
+        </div>
+
+
+        <div class="fabric-card">
+            <img src="https://via.placeholder.com/400x300?text=Tela+4" alt="Tela 4" class="fabric-img">
+            <div class="fabric-details">
+                <h2 class="fabric-name">Tela Stretch</h2>
+                <p class="fabric-description">Flexible y elástica.</p>
+                <p class="price">$3500 por metro</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
