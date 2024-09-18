@@ -4,6 +4,8 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.ContrasenasDistintas;
+import com.tallerwebi.dominio.excepcion.NombreDeUsuarioRepetido;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.infraestructura.ServicioUsuarioImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +54,49 @@ public class ControladorRegistroTest {
         assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/milogin"));
         verify(servicioUsuarioMock, times(1)).registrar(datosUsuarioRegistroMock);
     }
+
+    @Test
+    public void siEmailDelUsuarioExisteDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente{
+
+        // preparacion
+        doThrow(UsuarioExistente.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+
+        // ejecucion
+        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
+
+        // validacion
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miregistro"));
+        assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("El usuario ya existe"));
+    }
+
+    @Test
+    public void siNombreDeUsuarioExisteDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente{
+
+        // preparacion
+        doThrow(NombreDeUsuarioRepetido.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+
+        // ejecucion
+        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
+
+        // validacion
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miregistro"));
+        assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Error, nombre de usuario repetido"));
+    }
+
+    @Test
+    public void siLasContrasenasSonDistintasDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente, NombreDeUsuarioRepetido {
+
+        //Verificar que las contraseñas sean distintas
+
+        doThrow(ContrasenasDistintas.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+
+        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
+
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miregistro"));
+        assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Las contraseñas no son iguales"));
+    }
+
+
 
 /*
     private ModelAndView whenRegistroUsuario(String email, String password1, String password2) {

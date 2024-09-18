@@ -34,15 +34,23 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
-    public Usuario buscarUsuarioPorEmail(String email) {
+    public Usuario buscarPorEmail(String email) {
         return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
                 .add(Restrictions.eq("email", email))
                 .uniqueResult();
     }
 
     @Override
+    public Usuario buscarPorNombreDeUsuario(String nombre) {
+        return null;
+    }
+
+    @Override
     public void modificar(Usuario usuario) {
         sessionFactory.getCurrentSession().update(usuario);
     }
+
+
+
 
 }

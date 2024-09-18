@@ -43,7 +43,7 @@ public class ServicioUsuarioTest {
     public void siExisteUsuarioConMismoEmailElRegistroFalla() throws PasswordLongitudIncorrecta, UsuarioExistente {
         //given
         givenExisteUnUsuario("pablo@gmail.com", "12345");
-        when(repositorioUsuario.buscarUsuarioPorEmail("pablo@gmail.com")).thenReturn(new Usuario());
+        when(repositorioUsuario.buscarPorEmail("pablo@gmail.com")).thenReturn(new Usuario());
 
         //when
         Usuario usuarioCreado = whenRegistroUsuario("pablo@gmail.com","98989");
