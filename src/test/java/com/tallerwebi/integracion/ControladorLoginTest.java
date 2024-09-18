@@ -37,7 +37,6 @@ public class ControladorLoginTest {
     private WebApplicationContext wac;
     private MockMvc mockMvc;
 
-
     @BeforeEach
     public void init(){
         usuarioMock = mock(Usuario.class);
@@ -76,15 +75,22 @@ public class ControladorLoginTest {
     @Test
     public void debeRetornarALaPaginaRegistroCuandoSeNavegaALRegistro() throws Exception {
 
-        MvcResult result = this.mockMvc.perform(get("/milogin"))
+        MvcResult result = this.mockMvc.perform(get("/registro"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         ModelAndView modelAndView = result.getModelAndView();
         assert modelAndView != null;
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("milogin"));
-        assertThat(modelAndView.getModel().get("datosLogin").toString(),  containsString("com.tallerwebi.presentacion.DatosLogin"));
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miRegistro"));
+        assertThat(modelAndView.getModel().get("datosUsuarioRegistro").toString(),  containsString("com.tallerwebi.presentacion.DatosUsuarioRegistro"));
     }
+
+
+
+//    @Test
+//    public queSePuedaIrALaVistaRegistroCuandoSepresionaRegistro(){
+//
+//    }
 
 
 

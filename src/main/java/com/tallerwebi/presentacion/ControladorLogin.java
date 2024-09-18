@@ -57,5 +57,12 @@ public class ControladorLogin {
         return new ModelAndView("miHome");
     }
 
+    @RequestMapping(path = "/registro", method = RequestMethod.GET)
+    public ModelAndView irALaVistaRegistroConDatosUsuarioRegistroVacio() {
+        ModelMap model = new ModelMap();
+        model.put("datosUsuarioRegistro", new DatosUsuarioRegistro());
+        return new ModelAndView("miRegistro", model);
+    }
+
 
 }

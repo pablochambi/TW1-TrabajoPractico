@@ -21,12 +21,7 @@ public class ControladorRegistro {
         this.servicioUsuario = servicioUsuario;
     }
 
-    @RequestMapping(path = "/registro", method = RequestMethod.GET)
-    public ModelAndView nuevoUsuario() {
-        ModelMap model = new ModelMap();
-        model.put("usuario", new Usuario());
-        return new ModelAndView("miRegistro", model);
-    }
+
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
     public ModelAndView registrarme(@ModelAttribute("datosUsuarioRegistro") DatosUsuarioRegistro datosUsuarioRegistro) {
