@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
+import com.tallerwebi.presentacion.DatosUsuarioRegistro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         repositorioUsuario.guardar(usuario);
 
         return usuario;
+    }
+
+    @Override
+    public void registrar(DatosUsuarioRegistro datosRegistro) {
+
     }
 
     private static boolean noSeEncontroUsuario(Usuario usuarioBuscado) {

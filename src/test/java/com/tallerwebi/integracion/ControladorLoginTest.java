@@ -70,8 +70,22 @@ public class ControladorLoginTest {
         assert modelAndView != null;
         assertThat(modelAndView.getViewName(), equalToIgnoringCase("milogin"));
         assertThat(modelAndView.getModel().get("datosLogin").toString(),  containsString("com.tallerwebi.presentacion.DatosLogin"));
-
     }
+
+
+    @Test
+    public void debeRetornarALaPaginaRegistroCuandoSeNavegaALRegistro() throws Exception {
+
+        MvcResult result = this.mockMvc.perform(get("/milogin"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView modelAndView = result.getModelAndView();
+        assert modelAndView != null;
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("milogin"));
+        assertThat(modelAndView.getModel().get("datosLogin").toString(),  containsString("com.tallerwebi.presentacion.DatosLogin"));
+    }
+
 
 
 
