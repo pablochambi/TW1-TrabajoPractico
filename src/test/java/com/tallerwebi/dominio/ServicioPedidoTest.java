@@ -10,9 +10,13 @@ public class ServicioPedidoTest {
     //REPOSITORIO
     RepositorioPedido repositorioPedido = mock(RepositorioPedidoImpl.class);
     //SERVICIO
-    ServicioPedido servicioPedido =new ServicioPedidoImpl(repositorioPedido);
+    ServicioPedido servicioPedido = new ServicioPedidoImpl(repositorioPedido);
     @Test
-    public void queSePuedaCrearUnPedido(){
+    public void queSePuedaSaberCantidadArchivos(){
+        Pedido pedido = whenCreoPedido();
+    }
 
+    private Pedido whenCreoPedido() {
+        return new Pedido();
     }
 }
