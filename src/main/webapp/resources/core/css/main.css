@@ -14,3 +14,57 @@ h1{
 .navbar-brand{
     margin:0 2rem;
 }
+
+.container2 {
+    display: flex;
+    background-color: #ffffff;
+
+}
+
+.nav {
+    flex: 0 0 auto;
+    width: 250px;
+    border-right: 1px solid #d5d4d6;
+    margin-left: 15px;
+}
+
+.nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul li {
+    margin: 15px 0;
+}
+
+.nav ul li .icono {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #eeeeee;
+    color: #314056;
+    border-radius: 15px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.nav ul li .icono i {
+    line-height: 40px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #31415a;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.nav ul li a:hover {
+    color: #007bff;
+}
+
+.nav ul li a:hover .icono {
+    background-color: #cccccc;
+    color: #007bff;
+}
