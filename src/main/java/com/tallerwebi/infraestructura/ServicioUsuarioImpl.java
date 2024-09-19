@@ -62,9 +62,17 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         usuarioNuevo.setEmail(datosRegistro.getEmail());
         usuarioNuevo.setUsername(datosRegistro.getUsername());
         usuarioNuevo.setPassword(datosRegistro.getPassword());
+        usuarioNuevo.setNombre(datosRegistro.getNombre());
+        usuarioNuevo.setApellido(datosRegistro.getApellido());
 
         repositorioUsuario.guardar(usuarioNuevo);
 
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorEmail(String email){
+
+        return repositorioUsuario.buscarPorEmail(email);
     }
 
     private static boolean noSeEncontroUsuario(Usuario usuarioBuscado) {
