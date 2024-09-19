@@ -3,6 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.ContrasenasDistintas;
 import com.tallerwebi.dominio.excepcion.NombreDeUsuarioRepetido;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
@@ -52,6 +53,9 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         }
         if(usuarioEncontradoPorNombreDeUsuario != null){
             throw new NombreDeUsuarioRepetido();
+        }
+        if(!datosRegistro.getPassword().equals(datosRegistro.getC_password())){
+            throw new ContrasenasDistintas();
         }
 
         Usuario usuarioNuevo = new Usuario();
