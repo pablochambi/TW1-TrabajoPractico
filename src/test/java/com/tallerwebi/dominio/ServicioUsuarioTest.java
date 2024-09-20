@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -36,6 +37,7 @@ public class ServicioUsuarioTest {
     @Test
     public void siLaPasswordTieneMenosDeCincoCaracteresElRegistroFalla() {
         assertThrows(PasswordLongitudIncorrecta.class, ()->  whenRegistroUsuario("pablo@gmail.com", "123"));
+
     }
 
 

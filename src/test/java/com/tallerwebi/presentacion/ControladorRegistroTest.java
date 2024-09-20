@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.ContrasenasDistintas;
 import com.tallerwebi.dominio.excepcion.NombreDeUsuarioRepetido;
+import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.infraestructura.ServicioUsuarioImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,123 +37,75 @@ public class ControladorRegistroTest {
         //Inyecciones
         servicioUsuarioMock = mock(ServicioUsuarioImpl.class);
         controladorRegistro = new ControladorRegistro(servicioUsuarioMock);
+
         //Datos del registro
         datosUsuarioRegistroMock = new DatosUsuarioRegistro("leo@gmail.com","LeoMessi","Leonel","Messi","12345","12345");
-        //Para la simulacion de solicitudes http
-        requestMock = mock(HttpServletRequest.class);
-        sessionMock = mock(HttpSession.class);
-
     }
 
     @Test
-    public void registrameSiUsuarioNoExisteDeberiaCrearUsuarioYVolverAlLogin() throws UsuarioExistente{
-
-        // ejecucion
-        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
-
-        // validacion
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/milogin"));
-        verify(servicioUsuarioMock, times(1)).registrar(datosUsuarioRegistroMock);
+    public void cuandoElUsuarioNoExiste_DeberiaCrearUsuarioYRedirigirAlLogin() throws UsuarioExistente {
+        ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
+        thenElRegistroEsExitoso(mav);
     }
 
-    @Test
-    public void siEmailDelUsuarioExisteDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente{
-
-        // preparacion
-        doThrow(UsuarioExistente.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
-
-        // ejecucion
-        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
-
-        // validacion
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miregistro"));
-        assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("El usuario ya existe"));
-    }
-
-    @Test
-    public void siNombreDeUsuarioExisteDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente{
-
-        // preparacion
-        doThrow(NombreDeUsuarioRepetido.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
-
-        // ejecucion
-        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
-
-        // validacion
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miregistro"));
-        assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Error, nombre de usuario repetido"));
-    }
-
-    @Test
-    public void siLasContrasenasSonDistintasDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente, NombreDeUsuarioRepetido {
-
-        //Verificar que las contraseñas sean distintas
-
-        doThrow(ContrasenasDistintas.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
-
-        ModelAndView modelAndView = controladorRegistro.registrarme(datosUsuarioRegistroMock);
-
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miregistro"));
-        assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Las contraseñas no son iguales"));
-    }
-
-
-
-/*
-    private ModelAndView whenRegistroUsuario(String email, String password1, String password2) {
-        ModelAndView mav = controladorRegistro.registrar(email,password1,password2);
+    private ModelAndView whenRegistroUsuario(DatosUsuarioRegistro datosUsuarioRegistroMock) {
+        ModelAndView mav = controladorRegistro.registrarme(datosUsuarioRegistroMock);
         return mav;
     }
 
     private void thenElRegistroEsExitoso(ModelAndView mav) {
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/login"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/milogin"));
+        verify(servicioUsuarioMock, times(1)).registrar(datosUsuarioRegistroMock);
     }
 
     @Test
-    public void siElEmailEstaVacioElRegistroFalla()  {
-        givenNoExisteUsuario();
-        String emailVacio = "";
-        String password1= "12345";
-        String password2= "12345";
-        ModelAndView mav = whenRegistroUsuario(emailVacio,password1,password2);
-        String mensajeDeError = "El email es obligatorio";
-        thenElRegistroFalla(mav,mensajeDeError);
-    }
-    //siLasPasswordEstaVaciaElRegistroFalla
-
-    private void thenElRegistroFalla(ModelAndView mav,String mensajeDeError) {
-        assertThat(mav.getViewName(),equalToIgnoringCase("registro"));
-        assertThat(mav.getModel().get("error").toString(),equalToIgnoringCase(mensajeDeError));
+    public void cuandoElEmailDelUsuarioYaExiste_DeberiaVolverAFormularioYMostrarError__() throws UsuarioExistente{
+        // preparacion
+        doThrow(UsuarioExistente.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+        // ejecucion
+        ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
+        // validacion
+        thenElRegistroFalla(mav,"miRegistro","El usuario ya existe");
     }
 
-
-    //Hacer  -  Completar
-    @Test
-    public void siLasPasswordSonDistintasElRegistroFalla()  {
-        givenNoExisteUsuario();
-        String email= "pablo@gmail.com";
-        String password1= "12345";
-        String password2= "123456";
-
-        ModelAndView mav = whenRegistroUsuario(email,password1,password2);
-        String mensajeDeError = "Las contraseñas tienen que coincidir";
-        thenElRegistroFalla(mav,mensajeDeError);
+    private void thenElRegistroFalla(ModelAndView mav,String vista,String mensajeError) {
+        assertThat(mav.getViewName(), equalToIgnoringCase(vista));
+        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase(mensajeError));
     }
-
 
     @Test
-    public void siExisteUsuarioConEmailDelRegistroElRegistroFalla()  {
-
-        //La línea de código está simulando que cada vez que se llame
-        //al metodo registrar ("pablo", "1234", Mockito lanzara la excepcion UsuarioExistente
-        when(servicioUsuario.registrar("pablo","1234")).thenThrow(UsuarioExistente.class);
-
-        ModelAndView mav = whenRegistroUsuario("pablo","1234","1234");
-
-        thenElRegistroFalla(mav,"El usuario ya existe");
+    public void cuandoElNombreDeUsuarioYaExiste_DeberiaVolverAFormularioYMostrarError() throws UsuarioExistente{
+        // preparacion
+        doThrow(NombreDeUsuarioRepetido.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+        // ejecucion
+        ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
+        // validacion
+        thenElRegistroFalla(mav,"miRegistro","El nombre de usuario ya existe");
     }
 
-*/
+    @Test
+    public void cuandoLasContrasenasNoCoinciden_DeberiaVolverAFormularioYMostrarError() throws UsuarioExistente, NombreDeUsuarioRepetido {
+
+        //preparacion
+        doThrow(ContrasenasDistintas.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+
+        // ejecucion
+        ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
+        //Validacion
+        thenElRegistroFalla(mav,"miRegistro","Las contraseñas no son iguales");
+    }
+
+    @Test
+    public void cuandoLaContraseñaEsMenorACinco_DeberiaVolverAFormularioYMostrarError() throws UsuarioExistente, NombreDeUsuarioRepetido {
+
+        //preparacion
+        doThrow(PasswordLongitudIncorrecta.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
+
+        // ejecucion
+        ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
+        //Validacion
+        thenElRegistroFalla(mav,"miRegistro","La contraseña tienen que ser mayor a 5");
+    }
 
 
 }
