@@ -96,7 +96,7 @@ public class ControladorRegistroTest {
     }
 
     @Test
-    public void cuandoLaContraseñaEsMenorACinco_DeberiaVolverAFormularioYMostrarError() throws UsuarioExistente, NombreDeUsuarioRepetido {
+    public void cuandoLaContraseniaEsMenorACinco_DeberiaVolverAFormularioYMostrarError() throws UsuarioExistente, NombreDeUsuarioRepetido {
 
         //preparacion
         doThrow(PasswordLongitudIncorrecta.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
@@ -104,8 +104,10 @@ public class ControladorRegistroTest {
         // ejecucion
         ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
         //Validacion
-        thenElRegistroFalla(mav,"miRegistro","La contraseña tienen que ser mayor a 5");
+        thenElRegistroFalla(mav,"miRegistro","La contraseña tiene que ser mayor a 5");
     }
+
+
 
 
 }

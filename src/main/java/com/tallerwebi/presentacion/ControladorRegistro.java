@@ -26,28 +26,31 @@ public class ControladorRegistro {
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
     public ModelAndView registrarme(@ModelAttribute("datosUsuarioRegistro") DatosUsuarioRegistro datosUsuarioRegistro) {
+
         ModelMap model = new ModelMap();
+        String errorMessage = null;
+
         try {
             servicioUsuario.registrar(datosUsuarioRegistro);
         } catch (UsuarioExistente e) {
-            model.put("error", "El usuario ya existe");
-            return new ModelAndView("miRegistro", model);
+            errorMessage = "El usuario ya existe";
         } catch (NombreDeUsuarioRepetido e) {
-            model.put("error", "El nombre de usuario ya existe");
-            return new ModelAndView("miRegistro", model);
-        }catch (ContrasenasDistintas e) {
-            model.put("error", "Las contraseñas no son iguales");
-            return new ModelAndView("miRegistro", model);
-        }catch (PasswordLongitudIncorrecta e){
-            model.put("error", "La contraseña tienen que ser mayor a 5");
-            return new ModelAndView("miRegistro", model);
+            errorMessage = "El nombre de usuario ya existe";
+        } catch (ContrasenasDistintas e) {
+            errorMessage = "Las contraseñas no son iguales";
+        } catch (PasswordLongitudIncorrecta e) {
+            errorMessage = "La contraseña tiene que ser mayor a 5";
+        } catch (Exception e) {
+            errorMessage = "Error al registrar el nuevo usuario";
         }
-        catch (Exception e){
-            model.put("error", "Error al registrar el nuevo usuario");
+
+        if (errorMessage != null) {
+            model.put("error", errorMessage);
             return new ModelAndView("miRegistro", model);
         }
 
         return new ModelAndView("redirect:/milogin");
+
     }
 
 
