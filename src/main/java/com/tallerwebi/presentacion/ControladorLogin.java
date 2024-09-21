@@ -56,11 +56,11 @@ public class ControladorLogin {
         return new ModelAndView("miLogin", model);
     }
 
-//    @RequestMapping(path = "/miHome", method = RequestMethod.GET)
+//    @RequestMapping(path = "/homeAdmin", method = RequestMethod.GET)
 //    public ModelAndView irAHome(@ModelAttribute("email") String email) {
 //        ModelMap modelo = new ModelMap();
 //        modelo.addAttribute("email", email);
-//        return new ModelAndView("miHome", modelo);
+//        return new ModelAndView("homeAdmin", modelo);
 //    }
 
     @RequestMapping(path = "/registro", method = RequestMethod.GET)

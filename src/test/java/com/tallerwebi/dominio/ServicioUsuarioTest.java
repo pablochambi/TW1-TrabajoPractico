@@ -38,7 +38,7 @@ public class ServicioUsuarioTest {
     }
 
     @Test
-    public void queCuandoSeRegistraUnUsuario_EsteTengaUnRolUSER() {
+    public void queCuandoSeRegistraUnUsuario_EsteTengaUnRolCLIENTE() {
         Usuario usuario = whenRegistroUsuario(datosUsuarioRegistroMock);
         thenElRegistroEsExitoso(usuario);
     }
@@ -51,7 +51,7 @@ public class ServicioUsuarioTest {
     private void thenElRegistroEsExitoso(Usuario usuarioCreado) {
         assertThat(usuarioCreado, notNullValue());
         verify(repositorioUsuario, times(1)).guardar(usuarioCreado);
-        assertThat(usuarioCreado.getRol(),equalTo("USER"));
+        assertThat(usuarioCreado.getRol(),equalTo("CLIENTE"));
     }
 
 

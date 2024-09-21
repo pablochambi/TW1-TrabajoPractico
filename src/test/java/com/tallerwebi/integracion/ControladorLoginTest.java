@@ -103,13 +103,13 @@ public class ControladorLoginTest {
 
         ModelAndView modelAndView = result.getModelAndView();
         assert modelAndView != null;
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miHome"));
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("homeAdmin"));
     }
 
     @Test
-    public void debeRedirigirAHomeUser_CuandoElUsuarioEsUSER() throws Exception {
-        // Mockear el usuario para que tenga el rol de USER
-        when(usuarioMock.getRol()).thenReturn("USER");
+    public void debeRedirigirAhomeCliente_CuandoElUsuarioEsCLIENTE() throws Exception {
+        // Mockear el usuario para que tenga el rol de CLIENTE
+        when(usuarioMock.getRol()).thenReturn("CLIENTE");
 
         MvcResult result = this.mockMvc.perform(post("/milogin")
                         .param("email", "admin@empresa.com")
@@ -145,7 +145,7 @@ public class ControladorLoginTest {
         assert modelAndView != null;
 
         // Verificar que la vista retornada es "homeAdmin"
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("miHome"));
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("homeAdmin"));
 
     }
 

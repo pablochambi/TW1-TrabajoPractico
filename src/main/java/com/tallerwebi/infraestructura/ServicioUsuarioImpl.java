@@ -64,7 +64,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         usuarioNuevo.setPassword(datosRegistro.getPassword());
         usuarioNuevo.setNombre(datosRegistro.getNombre());
         usuarioNuevo.setApellido(datosRegistro.getApellido());
-        usuarioNuevo.setRol("USER");
+        usuarioNuevo.setRol("CLIENTE");
 
         repositorioUsuario.guardar(usuarioNuevo);
 

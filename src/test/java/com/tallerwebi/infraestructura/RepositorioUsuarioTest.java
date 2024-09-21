@@ -37,7 +37,7 @@ public class RepositorioUsuarioTest {
     @Test
     @Transactional
     @Rollback
-    public void queCuandoSeGuardeUnUsuario_SeGuardeConElRolDeUSER() {
+    public void queCuandoSeGuardeUnUsuario_SeGuardeConElRolDeCLIENTE() {
 
         Usuario usuario = new Usuario();
         usuario.setEmail("leo@gmail.com");
@@ -49,7 +49,7 @@ public class RepositorioUsuarioTest {
         repositorioUsuario.guardar(usuario);
 
         assertThat(usuario.getId(),notNullValue());
-        assertThat(usuario.getRol(),equalTo("USER"));
+        assertThat(usuario.getRol(),equalTo("CLIENTE"));
         assertThat(usuario.getActivo(),equalTo(true));
     }
 

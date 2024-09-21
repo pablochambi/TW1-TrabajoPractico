@@ -43,12 +43,11 @@ public class ControladorHome {
             model.put("nombre", usuario.getNombre());
             model.put("username", usuario.getUsername());
 
-            if (rol.equals("USER")) {
-                return new ModelAndView("homeUser", model);
+            if (rol.equals("CLIENTE")) {
+                return new ModelAndView("homeCliente", model);
             }else if(rol.equals("ADMIN")){
-                return new ModelAndView("miHome", model);
+                return new ModelAndView("homeAdmin", model);
             }
-
         }
 
         return new ModelAndView("redirect:/milogin");
