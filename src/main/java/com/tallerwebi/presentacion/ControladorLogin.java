@@ -46,20 +46,22 @@ public class ControladorLogin {
 
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-            model.addAttribute("email", usuarioBuscado.getEmail());
-            return new ModelAndView("miHome",model);
+            request.getSession().setAttribute("idUsuario", usuarioBuscado.getId());
+
+            return new ModelAndView("redirect:/home",model);   //Hace una nueva solicitud
+
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
         return new ModelAndView("miLogin", model);
     }
 
-    @RequestMapping(path = "/miHome", method = RequestMethod.GET)
-    public ModelAndView irAHome(@ModelAttribute("email") String email) {
-        ModelMap modelo = new ModelMap();
-        modelo.addAttribute("email", email);
-        return new ModelAndView("miHome", modelo);
-    }
+//    @RequestMapping(path = "/miHome", method = RequestMethod.GET)
+//    public ModelAndView irAHome(@ModelAttribute("email") String email) {
+//        ModelMap modelo = new ModelMap();
+//        modelo.addAttribute("email", email);
+//        return new ModelAndView("miHome", modelo);
+//    }
 
     @RequestMapping(path = "/registro", method = RequestMethod.GET)
     public ModelAndView irALaVistaRegistroConDatosUsuarioRegistroVacio() {

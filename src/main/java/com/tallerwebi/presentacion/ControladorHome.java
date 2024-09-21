@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class ControladorHome {
 
@@ -22,12 +25,36 @@ public class ControladorHome {
     }
 
 
-    @RequestMapping(path = "home")
-    public ModelAndView irAlHome(){
-        return new ModelAndView("miHome");
+    @RequestMapping(path = "/home", method = RequestMethod.GET)
+    public ModelAndView irAlHome(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        ModelMap model = new ModelMap();
+
+        if (session != null) {
+
+            Long idUsuario = (Long) session.getAttribute("idUsuario");
+            String rol = (String) session.getAttribute("ROL");
+
+            Usuario usuario = servicioUsuario.buscarUsuarioPorId(idUsuario);
+
+            model.put("idUsuario", idUsuario);
+            model.put("email", usuario.getEmail());
+            model.put("nombre", usuario.getNombre());
+            model.put("username", usuario.getUsername());
+
+            if (rol.equals("USER")) {
+                return new ModelAndView("homeUser", model);
+            }else if(rol.equals("ADMIN")){
+                return new ModelAndView("miHome", model);
+            }
+
+        }
+
+        return new ModelAndView("redirect:/milogin");
     }
 
-    @RequestMapping(path = "perfil",method = RequestMethod.GET)
+    @RequestMapping(path = "/perfil",method = RequestMethod.GET)
     public ModelAndView irAMiPerfil(@ModelAttribute("email") String email){
 
         Usuario usuario = servicioUsuario.buscarUsuarioPorEmail(email);
@@ -36,4 +63,6 @@ public class ControladorHome {
 
         return new ModelAndView("miPerfil",modelo);
     }
+
+
 }

@@ -30,7 +30,10 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public void guardar(Usuario usuario) {
+        usuario.setRol("USER");
+        usuario.setActivo(true);
         sessionFactory.getCurrentSession().save(usuario);
+
     }
 
     @Override
@@ -43,6 +46,13 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     @Override
     public Usuario buscarPorNombreDeUsuario(String nombre) {
         return null;
+    }
+
+    @Override
+    public Usuario buscarPorId(Long idUsuario) {
+        return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+                .add(Restrictions.eq("id", idUsuario))
+                .uniqueResult();
     }
 
     @Override

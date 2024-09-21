@@ -29,9 +29,6 @@ public class ControladorRegistroTest {
     private Usuario usuarioMock;
     private DatosUsuarioRegistro datosUsuarioRegistroMock;
 
-    private HttpServletRequest requestMock;
-    private HttpSession sessionMock;
-
     @BeforeEach
     public void preparacion(){
         //Inyecciones
@@ -48,29 +45,15 @@ public class ControladorRegistroTest {
         thenElRegistroEsExitoso(mav);
     }
 
-    private ModelAndView whenRegistroUsuario(DatosUsuarioRegistro datosUsuarioRegistroMock) {
-        ModelAndView mav = controladorRegistro.registrarme(datosUsuarioRegistroMock);
-        return mav;
-    }
-
-    private void thenElRegistroEsExitoso(ModelAndView mav) {
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/milogin"));
-        verify(servicioUsuarioMock, times(1)).registrar(datosUsuarioRegistroMock);
-    }
 
     @Test
-    public void cuandoElEmailDelUsuarioYaExiste_DeberiaVolverAFormularioYMostrarError__() throws UsuarioExistente{
+    public void cuandoElEmailDelUsuarioYaExiste_DeberiaVolverAFormularioYMostrarError() throws UsuarioExistente{
         // preparacion
         doThrow(UsuarioExistente.class).when(servicioUsuarioMock).registrar(datosUsuarioRegistroMock);
         // ejecucion
         ModelAndView mav = whenRegistroUsuario(datosUsuarioRegistroMock);
         // validacion
         thenElRegistroFalla(mav,"miRegistro","El usuario ya existe");
-    }
-
-    private void thenElRegistroFalla(ModelAndView mav,String vista,String mensajeError) {
-        assertThat(mav.getViewName(), equalToIgnoringCase(vista));
-        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase(mensajeError));
     }
 
     @Test
@@ -107,6 +90,21 @@ public class ControladorRegistroTest {
         thenElRegistroFalla(mav,"miRegistro","La contraseña tiene que ser mayor a 5");
     }
 
+
+    private ModelAndView whenRegistroUsuario(DatosUsuarioRegistro datosUsuarioRegistroMock) {
+        ModelAndView mav = controladorRegistro.registrarme(datosUsuarioRegistroMock);
+        return mav;
+    }
+
+    private void thenElRegistroEsExitoso(ModelAndView mav) {
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/milogin"));
+        verify(servicioUsuarioMock, times(1)).registrar(datosUsuarioRegistroMock);
+    }
+
+    private void thenElRegistroFalla(ModelAndView mav,String vista,String mensajeError) {
+        assertThat(mav.getViewName(), equalToIgnoringCase(vista));
+        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase(mensajeError));
+    }
 
 
 

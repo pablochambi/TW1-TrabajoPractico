@@ -50,7 +50,6 @@ public class ControladorRegistro {
         }
 
         return new ModelAndView("redirect:/milogin");
-
     }
 
 

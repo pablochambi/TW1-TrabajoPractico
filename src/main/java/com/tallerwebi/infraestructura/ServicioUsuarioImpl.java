@@ -44,7 +44,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
-    public void registrar(DatosUsuarioRegistro datosRegistro) throws UsuarioExistente, NombreDeUsuarioRepetido {
+    public Usuario registrar(DatosUsuarioRegistro datosRegistro) throws UsuarioExistente, NombreDeUsuarioRepetido {
         Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(datosRegistro.getEmail());
         Usuario usuarioEncontradoPorNombreDeUsuario = repositorioUsuario.buscarPorNombreDeUsuario(datosRegistro.getNombre());
 
@@ -64,15 +64,22 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         usuarioNuevo.setPassword(datosRegistro.getPassword());
         usuarioNuevo.setNombre(datosRegistro.getNombre());
         usuarioNuevo.setApellido(datosRegistro.getApellido());
+        usuarioNuevo.setRol("USER");
 
         repositorioUsuario.guardar(usuarioNuevo);
 
+        return usuarioNuevo;
     }
 
     @Override
     public Usuario buscarUsuarioPorEmail(String email){
 
         return repositorioUsuario.buscarPorEmail(email);
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorId(Long idUsuario) {
+        return repositorioUsuario.buscarPorId(idUsuario);
     }
 
     private static boolean noSeEncontroUsuario(Usuario usuarioBuscado) {
