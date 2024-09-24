@@ -14,81 +14,40 @@
 
     <!-- Mis estilos -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
     <title>Home de Usuario</title>
 </head>
 <body style="background-color: rgb(172, 172, 172);">
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <!-- Logo -->
-            <a class="navbar-brand" href="#">
-                <img th:src="@{/images/LOGO_MARCA_AGUA.png}" alt="Logo" width="100" height="30" class="d-inline-block align-text-top">
-            </a>
-            <!-- Botón para móviles -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <!-- Links de navegación -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0" style="display: flex; gap: 12px;">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hacer Pedido</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Simulador</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Historial de Pedidos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Catálogo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Archivos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Gestionar Telas</a>
-                    </li>
-                </ul>
+            <!--Header-->
+    <div th:insert="templates/header :: header"></div>
 
-                <!-- Usuario y logo de usuario -->
-                <a th:href="@{/perfil/(email=${email})}" class="navbar-text me-3">
-                      <span th:text="${username}"> </span>
-                  </a>
-                <a href="#" class="nav-link">
-                    <img th:src="@{/images/perfil.png}" alt="Usuario" width="50" height="50" class="d-inline-block align-text-top">
-                </a>
-            </div>
+    <main>
+        <div style="text-align: center; margin: 30px">
+            <h1>¡Bienvenido!</h1>
         </div>
-    </nav>
-</header>
-<div style="text-align: center; margin: 30px">
-    <h1>¡Bienvenido!</h1>
-</div>
 
-<div class="container" >
-    <!-- Contenido aquí -->
-    <div class="row" >
-        <div class="col-6" style="margin: auto;">
-            <div class="p-4" style="min-width: 300px;">
-                <div class="card-body">
-                    <h1>Telas sublimadas con tus diseños</h1>
-                    <h3>Variedad de telas a eleccion</h3>
+        <div class="container" >
+            <!-- Contenido aquí -->
+            <div class="row" >
+                <div class="col-6" style="margin: auto;">
+                    <div class="p-4" style="min-width: 300px;">
+                        <div class="card-body">
+                            <h1>Telas sublimadas con tus diseños</h1>
+                            <h3>Variedad de telas a eleccion</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6" style="margin: auto;">
+                    <div class="carta" style="min-width: 300px;">
+                        <div class="card-body">
+                            <img th:src="@{/images/telas_sublimadas.jpg}" alt="telas sublimadas" style="max-width: 100%;">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-6" style="margin: auto;">
-            <div class="carta" style="min-width: 300px;">
-                <div class="card-body">
-                    <img th:src="@{/images/telas_sublimadas.jpg}" alt="telas sublimadas" style="max-width: 100%;">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </main>
+
 </body>
 </html>
