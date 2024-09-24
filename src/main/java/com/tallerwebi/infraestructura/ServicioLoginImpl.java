@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service("servicioLogin")
+@Service("serviciologin")
 @Transactional
 public class ServicioLoginImpl implements ServicioLogin {
 
