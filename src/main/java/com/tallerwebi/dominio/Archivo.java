@@ -9,9 +9,15 @@ public class Archivo {
     private Long id;
     private String nombre;
     private String tipo;
-    private Integer peso;
+    private Double peso;
+    private String direccion;
+
     @ManyToOne
     private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
 
     public Pedido getPedido() {
         return pedido;
@@ -19,6 +25,14 @@ public class Archivo {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -45,11 +59,18 @@ public class Archivo {
         this.tipo = tipo;
     }
 
-    public Integer getPeso() {
+    public Double getPeso() {
         return peso;
     }
 
-    public void setPeso(Integer peso) {
+    public void setPeso(Double peso) {
         this.peso = peso;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 }

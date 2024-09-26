@@ -33,7 +33,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         usuario.setRol("CLIENTE");
         usuario.setActivo(true);
         sessionFactory.getCurrentSession().save(usuario);
-
     }
 
     @Override
@@ -59,8 +58,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     public void modificar(Usuario usuario) {
         sessionFactory.getCurrentSession().update(usuario);
     }
-
-
 
 
 }
