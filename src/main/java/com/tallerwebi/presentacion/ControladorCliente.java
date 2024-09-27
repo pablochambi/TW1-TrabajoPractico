@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,6 @@ public class ControladorCliente {
     private ServicioUsuario servicioUsuario;
     private ServicioArchivo servicioArchivo;
 
-
     private static final String RUTA_ARCHIVOS = "src/main/webapp/resources/core/archivos/";
 
     @Autowired
@@ -40,11 +40,11 @@ public class ControladorCliente {
     }
 
     @RequestMapping(path = "/archivos")
-    public ModelAndView irAMisArchivos(HttpServletRequest request) {
+    public ModelAndView irAMisArchivos(HttpServletRequest request, ModelMap model) {
 
         HttpSession session = request.getSession(false);
 
-        ModelMap model = new ModelMap();
+        //ModelMap model = new ModelMap();
 
         if (session != null) {
             Long idUsuario = (Long) session.getAttribute("idUsuario");
@@ -67,7 +67,7 @@ public class ControladorCliente {
     }
 
     @PostMapping("/subirArchivo")
-    public ModelAndView subirArchivo(@RequestParam("archivo") MultipartFile archivo,HttpServletRequest request) throws IOException {
+    public ModelAndView subirArchivo(@RequestParam("archivo") MultipartFile archivo, HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException {
 
         HttpSession session = request.getSession(false);
         if(session == null){return new ModelAndView("redirect:/milogin");}
@@ -77,26 +77,20 @@ public class ControladorCliente {
         Long idUsuario = (Long) session.getAttribute("idUsuario");
         Usuario usuario = servicioUsuario.buscarUsuarioPorId(idUsuario);
 
-        ModelMap model = new ModelMap();
-
-        model.put("nombre", usuario.getNombre());
-        model.put("apellido", usuario.getApellido());
-        model.put("email", usuario.getEmail());
-
         if (archivo.isEmpty()) {
-            model.put("error", "Debe seleccionar un archivo.");
-            return new ModelAndView("archivos",model);
+            redirectAttributes.addFlashAttribute("error", "Debe seleccionar un archivo.");
+            return new ModelAndView("redirect:/archivos");
         }
 
         if (!extension.equals("jpg") && !extension.equals("pdf")) {
-            model.put("error", "Solo se permiten archivos con extensión .jpg o .pdf");
-            return new ModelAndView("archivos",model);
+            redirectAttributes.addFlashAttribute("error", "Solo se permiten archivos con extensión .jpg o .pdf");
+            return new ModelAndView("redirect:/archivos");
         }
 
         guardarArchivoEnLaCarpetaArchivos(archivo, nombreArchivo, usuario);
 
-        model.put("mensaje", "Archivo subido exitosamente.");
-        return new ModelAndView("archivos",model);
+        redirectAttributes.addFlashAttribute("mensaje", "Archivo subido exitosamente.");
+        return new ModelAndView("redirect:/archivos");
     }
 
     @GetMapping("/archivos/lista")
