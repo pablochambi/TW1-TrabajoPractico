@@ -1,8 +1,8 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.RepositorioArchivo;
 import com.tallerwebi.dominio.ServicioArchivo;
-import com.tallerwebi.dominio.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

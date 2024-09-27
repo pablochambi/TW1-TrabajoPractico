@@ -1,15 +1,17 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.RepositorioArchivo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class RepositorioArchivoImpl implements RepositorioArchivo{
+public class RepositorioArchivoImpl implements RepositorioArchivo {
 
     private SessionFactory sessionFactory;
 
@@ -26,9 +28,8 @@ public class RepositorioArchivoImpl implements RepositorioArchivo{
     @Override
     public List<Archivo> buscarPorIdDeUsuario(Long idUsuario) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("FROM Archivo a WHERE a.usuario.id = :idUsuario" , Archivo.class)
-                .setParameter("idUsuario", idUsuario)
-                .getResultList();
+        return session.createCriteria(Archivo.class)
+                .add(Restrictions.eq("usuario.id", idUsuario)).list();
     }
 
 }

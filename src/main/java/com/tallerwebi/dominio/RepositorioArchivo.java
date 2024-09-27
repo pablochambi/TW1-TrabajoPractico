@@ -1,6 +1,4 @@
-package com.tallerwebi.infraestructura;
-
-import com.tallerwebi.dominio.Archivo;
+package com.tallerwebi.dominio;
 
 import java.util.List;
 
