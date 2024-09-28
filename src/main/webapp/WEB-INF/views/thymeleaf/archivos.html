@@ -91,6 +91,9 @@
 
             // Iterar sobre la lista de archivos y añadir filas a la tabla
             $.each(data, function(index, archivo) {
+
+              let eliminarUrl = `/spring/archivos/eliminar?archivo_id=${archivo.id}`;
+
               $('#tablaArchivos tbody').append(
                       `<tr>
                         <td>${archivo.id}</td>
@@ -98,8 +101,7 @@
                         <td>${archivo.tipo}</td>
                         <td>${archivo.peso.toFixed(2)}</td>
                         <td>
-                          <a href="/descargarArchivo/${archivo.id}" class="btn btn-primary btn-sm me-1">Descargar</a>
-                          <a href="/eliminarArchivo/${archivo.id}" class="btn btn-danger btn-sm">Eliminar</a>
+                          <a href="${eliminarUrl}" class="btn btn-danger btn-sm">Eliminar</a>
                         </td>
                       </tr>`
               );

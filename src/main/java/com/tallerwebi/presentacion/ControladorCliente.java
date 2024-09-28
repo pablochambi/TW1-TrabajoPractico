@@ -98,12 +98,35 @@ public class ControladorCliente {
     public List<Archivo> obtenerListaArchivos(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            Long idUsuario = (Long) session.getAttribute("idUsuario");
-            List<Archivo> archivos = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
-            return archivos;
+        if (session == null) {return new ArrayList<>();}
+
+        Long idUsuario = (Long) session.getAttribute("idUsuario");
+        return servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
+    }
+
+    @RequestMapping(path = "/archivos/eliminar", method = RequestMethod.GET)
+    public ModelAndView eliminarUnArchivo(@RequestParam("archivo_id") Long archivo_id, HttpServletRequest request) throws IOException {
+
+        HttpSession session = request.getSession(false);
+        if (session == null) {return new ModelAndView("redirect:/milogin");}
+
+        Long idUsuario = (Long) session.getAttribute("idUsuario");
+
+        String nombreArchivo  = servicioArchivo.getNombreArchivoPorID(archivo_id);
+
+        servicioArchivo.eliminarPorId(archivo_id);
+
+        Path rutaArchivo = Paths.get(RUTA_ARCHIVOS + nombreArchivo);
+
+        // Verificar si el archivo existe antes de intentar eliminarlo
+        if (Files.exists(rutaArchivo)) {
+            Files.delete(rutaArchivo); // Eliminar el archivo
+            System.out.println("Archivo eliminado: " + rutaArchivo);
+        } else {
+            System.out.println("El archivo no existe: " + rutaArchivo);
         }
-        return new ArrayList<>();
+
+        return new ModelAndView("redirect:/archivos");
     }
 
 

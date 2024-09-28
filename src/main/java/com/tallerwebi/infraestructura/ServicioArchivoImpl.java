@@ -37,4 +37,19 @@ public class ServicioArchivoImpl implements ServicioArchivo {
         return this.repositorioArchivo.buscarPorIdDeUsuario(idUsuario);
     }
 
+    @Override
+    public void eliminarPorId(Long archivoId) {
+        if(archivoId==null || archivoId<=0 ){
+            throw new IllegalArgumentException("El id del archivo no puede ser nulo o menor a cero");
+        }
+        Archivo archivo =  this.repositorioArchivo.buscarPorId(archivoId);
+        this.repositorioArchivo.eliminar(archivo);
+    }
+
+    @Override
+    public String getNombreArchivoPorID(Long archivoId) {
+        if(archivoId==null || archivoId<=0 ){throw new IllegalArgumentException("El id del archivo no puede ser nulo o menor a cero");}
+        return repositorioArchivo.getNombrePorID(archivoId);
+    }
+
 }
