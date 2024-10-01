@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ServicioPedido {
     void guardar(Pedido pedidoNuevo);
-    Pedido guardar(Archivo archivo);
 
     Archivo validarArchivo(MultipartFile file, Long idUsuario);
 

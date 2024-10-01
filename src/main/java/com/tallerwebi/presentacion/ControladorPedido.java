@@ -26,7 +26,12 @@ public class ControladorPedido {
     }
 
     @RequestMapping(path = "/formPedido")
-    public ModelAndView realizarPedido(){
+    public ModelAndView realizarPedido(HttpServletRequest request){
+        Long idUsuario = obtenerIdUsuario(request);
+        if (idUsuario == null) {
+            return new ModelAndView("redirect:/milogin");
+        }
+
         return new ModelAndView("formularioPedido");
     }
 
@@ -49,10 +54,13 @@ public class ControladorPedido {
                                        @RequestParam("file1") MultipartFile file1,
                                        @RequestParam("file2") MultipartFile file2,
                                        @RequestParam("file3") MultipartFile file3,
-                                       @RequestParam("tela") String tela,
-                                       @RequestParam("metros") Double metros,
                                        HttpServletRequest request){
+
         Long idUsuario = obtenerIdUsuario(request);
+        if (idUsuario == null) {
+            return new ModelAndView("redirect:/milogin");
+        }
+
         Archivo archivoA = servicioPedido.validarArchivo(file1, idUsuario);
         Archivo archivoB = servicioPedido.validarArchivo(file2, idUsuario);
         Archivo archivoC = servicioPedido.validarArchivo(file3, idUsuario);

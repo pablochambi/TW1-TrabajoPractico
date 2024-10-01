@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import net.bytebuddy.asm.Advice;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,8 +14,8 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    @Temporal(TemporalType.DATE)
-    private Date fechaCreacion;
+    //@Temporal(TemporalType.DATE)
+    private String fechaCreacion;
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.EN_ESPERA;
     private Boolean conCalandrado = false;
@@ -63,11 +65,11 @@ public class Pedido {
 
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public Date getFechaCreacion() {
+    public String getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
+    public void setFechaCreacion(String fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 
@@ -93,10 +95,5 @@ public class Pedido {
 
     public void setTiempoEstimadoEntrega(Integer tiempoEstimadoEntrega) {
         this.tiempoEstimadoEntrega = tiempoEstimadoEntrega;
-    }
-
-    public String obtenerFechaHoy(){
-        LocalDate date = LocalDate.now();
-        return date.toString();
     }
 }

@@ -158,10 +158,15 @@ public class ControladorCliente {
         return Objects.requireNonNull(nombreArchivo).substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
     }
 
+    /***************** NUEVA ACTION PARA EL HISTORIAL DE ARCHIVOS *********************/
 
     @RequestMapping(path = "/historialArchivos")
     public ModelAndView historial(HttpServletRequest request) {
         Long idUsuario = this.obtenerIdUsuario(request);
+        if (idUsuario == null){
+            return new ModelAndView("redirect:/milogin");
+        }
+
         List<Archivo> archivosEncontrados = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
         ModelMap model = new ModelMap();
         model.put("archivos", archivosEncontrados);
