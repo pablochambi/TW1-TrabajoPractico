@@ -2,10 +2,10 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"archivos"}) //<-- Ignora la lista de archivos durante la serialización de usuario a JSON
+//@JsonIgnoreProperties({"archivos"}) //<-- Ignora la lista de archivos durante la serialización de usuario a JSON
 public class Usuario {
 
     @Id
@@ -20,7 +20,9 @@ public class Usuario {
     private String apellido;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Archivo> archivos;
+    private List<Pedido> misPedidos;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Archivo> misArchivos;
 
 
     public Long getId() {
@@ -86,10 +88,10 @@ public class Usuario {
     }
 
     public List<Archivo> getArchivos() {
-        return archivos;
+        return misArchivos;
     }
 
     public void setArchivos(List<Archivo> archivos) {
-        this.archivos = archivos;
+        this.misArchivos = archivos;
     }
 }

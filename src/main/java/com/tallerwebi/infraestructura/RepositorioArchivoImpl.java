@@ -1,7 +1,8 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Archivo;
-import com.tallerwebi.dominio.RepositorioArchivo;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.repositorios.RepositorioArchivo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -27,10 +28,11 @@ public class RepositorioArchivoImpl implements RepositorioArchivo {
     }
 
     @Override
-    public List<Archivo> buscarPorIdDeUsuario(Long idUsuario) {
+    public List<Archivo> buscarPorIdDeUsuario(Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Archivo.class)
-                .add(Restrictions.eq("usuario.id", idUsuario)).list();
+                      .add(Restrictions.eq("usuario", usuario))
+                      .list();
     }
 
     @Override

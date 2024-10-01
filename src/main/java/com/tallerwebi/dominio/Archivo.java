@@ -13,10 +13,11 @@ public class Archivo {
     private String direccion;
 
     @ManyToOne
+    @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     public Pedido getPedido() {

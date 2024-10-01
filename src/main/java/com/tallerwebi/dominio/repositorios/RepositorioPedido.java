@@ -1,4 +1,7 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.repositorios;
+
+import com.tallerwebi.dominio.Estado;
+import com.tallerwebi.dominio.Pedido;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicios;
+
+import com.tallerwebi.dominio.Archivo;
 
 import java.util.List;
 
@@ -11,4 +13,5 @@ public interface ServicioArchivo {
     void eliminarPorId(Long archivoId);
 
     String getNombreArchivoPorID(Long archivoId);
+
 }

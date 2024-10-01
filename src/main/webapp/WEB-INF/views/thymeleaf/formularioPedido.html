@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pedido</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Formulario de Pedido</h2>
+    <form th:action="@{/pedidoRealizado}" method="post" enctype="multipart/form-data">
+        <!-- Nombre del cliente -->
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input id="nombre" name="nombre"
+                   type="text" class="form-control" placeholder="Ingrese el nombre del Cliente/Empresa" required>
+        </div>
+
+        <!-- Tipo de pedido: Impresion o Calandrado -->
+        <div class="mb-3">
+            <label for="tipoPedido" class="form-label">Tipo de Pedido</label>
+            <select class="form-select" id="tipoPedido" name="tipoPedido" required>
+                <option value="impresion">Impresión</option>
+                <option value="calandrado">Calandrado</option>
+            </select>
+        </div>
+
+        <!-- Subida de archivos con opciones de tela -->
+        <div class="mb-3">
+            <label class="form-label">Archivos</label>
+            <input type="file" class="form-control mb-2" name="file1" required>
+            <input type="file" class="form-control mb-2" name="file2" required>
+            <input type="file" class="form-control mb-2" name="file3" required>
+        </div>
+
+        <select class="form-select mb-3" name="tela" required>
+            <option value="SET">SET</option>
+            <option value="W15">W15</option>
+            <option value="SOFT">SOFT</option>
+            <option value="KETTEN">KETTEN</option>
+            <option value="FIFA">FIFA</option>
+        </select>
+
+        <!-- Metros aproximados -->
+        <div class="mb-3">
+            <label for="metros" class="form-label">Metros aproximados (cm)</label>
+            <input type="number" class="form-control" id="metros" name="metros" required>
+        </div>
+
+        <!-- Botón para enviar el formulario -->
+        <button type="submit" class="btn btn-primary">Realizar Pedido</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

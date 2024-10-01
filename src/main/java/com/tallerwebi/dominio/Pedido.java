@@ -1,6 +1,8 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,18 +11,25 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nombre;
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
     @Enumerated(EnumType.STRING)
-    private Estado estado;
+    private Estado estado = Estado.EN_ESPERA;
     private Boolean conCalandrado = false;
     private Integer tiempoEstimadoEntrega;
-    //Relacion N a 1
+
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "maquina_id")
     private Maquina maquina;
-    //Lista de Archivos
-    @OneToMany
-    private List<Archivo> archivos;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Archivo> archivos = new ArrayList<>();
+
 
     public Maquina getMaquina() {
         return maquina;
@@ -45,6 +54,14 @@ public class Pedido {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getNombre() { return nombre; }
+
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public Usuario getUsuario() { return usuario; }
+
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
     public Date getFechaCreacion() {
         return fechaCreacion;
@@ -76,5 +93,10 @@ public class Pedido {
 
     public void setTiempoEstimadoEntrega(Integer tiempoEstimadoEntrega) {
         this.tiempoEstimadoEntrega = tiempoEstimadoEntrega;
+    }
+
+    public String obtenerFechaHoy(){
+        LocalDate date = LocalDate.now();
+        return date.toString();
     }
 }

@@ -2,14 +2,12 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Estado;
 import com.tallerwebi.dominio.Pedido;
-import com.tallerwebi.dominio.RepositorioPedido;
+import com.tallerwebi.dominio.repositorios.RepositorioPedido;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.internal.matchers.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;

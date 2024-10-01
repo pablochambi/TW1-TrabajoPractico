@@ -1,20 +1,16 @@
 package com.tallerwebi.presentacion;
 
 
-import com.tallerwebi.dominio.ServicioLogin;
-import com.tallerwebi.dominio.ServicioUsuario;
+import com.tallerwebi.dominio.servicios.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.ContrasenasDistintas;
-import com.tallerwebi.dominio.excepcion.NombreDeUsuarioRepetido;
-import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.excepciones.ContrasenasDistintas;
+import com.tallerwebi.dominio.excepciones.NombreDeUsuarioRepetido;
+import com.tallerwebi.dominio.excepciones.PasswordLongitudIncorrecta;
+import com.tallerwebi.dominio.excepciones.UsuarioExistente;
 import com.tallerwebi.infraestructura.ServicioUsuarioImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;

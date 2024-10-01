@@ -1,12 +1,14 @@
 package com.tallerwebi.presentacion;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.tallerwebi.dominio.*;
-
+import com.mysql.cj.jdbc.jmx.LoadBalanceConnectionGroupManager;
+import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.servicios.ServicioArchivo;
+import com.tallerwebi.dominio.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -157,4 +159,16 @@ public class ControladorCliente {
     }
 
 
+    @RequestMapping(path = "/historialArchivos")
+    public ModelAndView historial(HttpServletRequest request) {
+        Long idUsuario = this.obtenerIdUsuario(request);
+        List<Archivo> archivosEncontrados = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
+        ModelMap model = new ModelMap();
+        model.put("archivos", archivosEncontrados);
+        return new ModelAndView("archivos", model);
+    }
+
+    private Long obtenerIdUsuario(HttpServletRequest request) {
+        return (Long) request.getSession().getAttribute("idUsuario");
+    }
 }
