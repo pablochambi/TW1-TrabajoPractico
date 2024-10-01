@@ -1,11 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioUsuario;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.ContrasenasDistintas;
-import com.tallerwebi.dominio.excepcion.NombreDeUsuarioRepetido;
-import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.servicios.ServicioUsuario;
+import com.tallerwebi.dominio.excepciones.ContrasenasDistintas;
+import com.tallerwebi.dominio.excepciones.NombreDeUsuarioRepetido;
+import com.tallerwebi.dominio.excepciones.PasswordLongitudIncorrecta;
+import com.tallerwebi.dominio.excepciones.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

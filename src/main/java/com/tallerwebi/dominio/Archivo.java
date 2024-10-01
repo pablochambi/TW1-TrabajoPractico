@@ -10,13 +10,17 @@ public class Archivo {
     private String nombre;
     private String tipo;
     private Double peso;
-    private String direccion;
+
+    @Lob  // ESTO ES PARA DECIR QUE EL MYSQL PERMITA ARCHIVOS MAS PESADOS
+    @Column(name = "datos", columnDefinition = "LONGBLOB")
+    private byte[] datos;
 
     @ManyToOne
+    @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     public Pedido getPedido() {
@@ -67,10 +71,7 @@ public class Archivo {
         this.peso = peso;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+    public byte[] getData() { return datos; }
+
+    public void setData(byte[] data) { this.datos = data; }
 }

@@ -1,6 +1,10 @@
 package com.tallerwebi.dominio;
 
+import net.bytebuddy.asm.Advice;
+
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,18 +13,25 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.DATE)
-    private Date fechaCreacion;
+    private String nombre;
+    //@Temporal(TemporalType.DATE)
+    private String fechaCreacion;
     @Enumerated(EnumType.STRING)
-    private Estado estado;
+    private Estado estado = Estado.EN_ESPERA;
     private Boolean conCalandrado = false;
     private Integer tiempoEstimadoEntrega;
-    //Relacion N a 1
+
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "maquina_id")
     private Maquina maquina;
-    //Lista de Archivos
-    @OneToMany
-    private List<Archivo> archivos;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Archivo> archivos = new ArrayList<>();
+
 
     public Maquina getMaquina() {
         return maquina;
@@ -46,11 +57,19 @@ public class Pedido {
         this.id = id;
     }
 
-    public Date getFechaCreacion() {
+    public String getNombre() { return nombre; }
+
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public Usuario getUsuario() { return usuario; }
+
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+    public String getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
+    public void setFechaCreacion(String fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 

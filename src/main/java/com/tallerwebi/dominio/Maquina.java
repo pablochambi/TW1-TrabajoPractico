@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Maquina {
@@ -13,6 +14,9 @@ public class Maquina {
     public Long getId() {
         return id;
     }
+
+    @OneToMany(mappedBy = "maquina", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos;
 
     public void setId(Long id) {
         this.id = id;

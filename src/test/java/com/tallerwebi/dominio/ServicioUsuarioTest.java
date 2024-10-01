@@ -1,10 +1,9 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.repositorios.RepositorioUsuario;
+import com.tallerwebi.dominio.servicios.ServicioUsuario;
 import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioUsuarioImpl;
-import com.tallerwebi.presentacion.ControladorRegistro;
 import com.tallerwebi.presentacion.DatosUsuarioRegistro;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

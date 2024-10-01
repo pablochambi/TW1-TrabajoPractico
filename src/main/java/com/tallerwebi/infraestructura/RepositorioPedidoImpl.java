@@ -2,7 +2,7 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Estado;
 import com.tallerwebi.dominio.Pedido;
-import com.tallerwebi.dominio.RepositorioPedido;
+import com.tallerwebi.dominio.repositorios.RepositorioPedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="ped : ${pedido}">
+    <p th:text="${ped.estado}"></p>
+    <p th:text="${ped.conCalandrado}"></p>
+    <div th:each="archi : ${pedido.archivos}">
+        <p th:text="${archi.id}"></p>
+        <p th:text="${archi.nombre}"></p>
+        <p th:text="${archi.peso}"></p>
+    </div>
+</div>
+</body>
+</html>

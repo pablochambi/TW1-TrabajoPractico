@@ -24,7 +24,7 @@
 
   <h2>Subir Archivo</h2>
 
-  <!-- Mostrar mensajes de error o éxito -->
+  <!-- Mostrar mensajes de error o éxito
   <div th:if="${error}" th:text="${error}" style="color: red;"></div>
   <div th:if="${mensaje}" th:text="${mensaje}" style="color: green;"></div>
 
@@ -34,7 +34,7 @@
     <br><br>
     <button type="submit">Subir</button>
   </form>
-
+-->
   <h2>Lista de Archivos Subidos:</h2>
 
   <!-- Tabla de archivos -->
@@ -44,19 +44,31 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Nombre</th>
-        <th scope="col">Tipo</th>
         <th scope="col">Peso (MB)</th>
-        <th scope="col">Acciones</th>
+        <th scope="col">Usuario ID</th>
       </tr>
       </thead>
       <tbody>
-      <!-- Las filas se añadirán dinámicamente aquí -->
+      <tr th:each="arch : ${archivos}">
+        <td>
+          <p th:text="${arch.id}"></p>
+        </td>
+        <td>
+          <p th:text="${arch.nombre}"></p>
+        </td>
+        <td>
+          <p th:text="${arch.peso}"></p>
+        </td>
+        <td>
+          <p th:text="${arch.usuario}"></p>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
 
 
-  <script>
+  <script>/*
     function validarExtension() {
       const archivoInput = document.getElementById("archivo");
       const archivoRuta = archivoInput.value;
@@ -67,13 +79,13 @@
         return false;
       }
       return true;
-    }
+    }*/
   </script>
 
   <!-- jQuery Script para actualizar la tabla -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-  <script>
+  <script>/*
     $(document).ready(function() {
       // Función para cargar la lista de archivos
       function cargarArchivos() {
@@ -116,7 +128,7 @@
       // Llamar a la función para cargar los archivos al inicializar la página
       cargarArchivos();
 
-    });
+    });*/
   </script>
 
   <!-- Boostrap core javascript -->

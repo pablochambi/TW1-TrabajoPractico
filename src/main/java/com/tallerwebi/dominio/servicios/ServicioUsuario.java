@@ -1,7 +1,8 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicios;
 
-import com.tallerwebi.dominio.excepcion.NombreDeUsuarioRepetido;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepciones.NombreDeUsuarioRepetido;
+import com.tallerwebi.dominio.excepciones.UsuarioExistente;
 import com.tallerwebi.presentacion.DatosUsuarioRegistro;
 
 public interface ServicioUsuario {
