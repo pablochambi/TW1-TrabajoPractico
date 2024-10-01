@@ -7,8 +7,13 @@ import com.tallerwebi.dominio.repositorios.RepositorioUsuario;
 import com.tallerwebi.dominio.servicios.ServicioArchivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -55,6 +60,20 @@ public class ServicioArchivoImpl implements ServicioArchivo {
     public String getNombreArchivoPorID(Long archivoId) {
         if(archivoId==null || archivoId<=0 ){throw new IllegalArgumentException("El id del archivo no puede ser nulo o menor a cero");}
         return repositorioArchivo.getNombrePorID(archivoId);
+    }
+
+    @Override
+    public void guardarEnCarpeta(MultipartFile file) {
+        //RUTA DONDE SE GUARDARA EL ARCHIVO
+        String rutaDirectorio = "src/main/webapp/resources/core/archivos/";
+        //CREAMOS EL ARCHIVO EN LA RUTA DE ARRIBA
+        Path rutaArchivo = Paths.get(rutaDirectorio + file.getOriginalFilename());
+        //GUARDAMOS EL ARCHIVO EN LA RUTA ESPECIFICADA
+        try {
+            Files.write(rutaArchivo, file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -33,7 +33,7 @@ public class ControladorCliente {
     private ServicioUsuario servicioUsuario;
     private ServicioArchivo servicioArchivo;
 
-    private static final String RUTA_ARCHIVOS = "src/main/webapp/resources/core/archivos/";
+    /*private static final String RUTA_ARCHIVOS = "src/main/webapp/resources/core/archivos/";
 
     @Autowired
     public ControladorCliente(ServicioUsuario servicioUsuario,ServicioArchivo servicioArchivo) {
@@ -148,7 +148,7 @@ public class ControladorCliente {
         arch.setTipo(extencion);
         arch.setPeso(tamanioEnMb);
         arch.setPedido(null);
-        arch.setDireccion(RUTA_ARCHIVOS + nombreArchivo);
+        //arch.setDireccion(RUTA_ARCHIVOS + nombreArchivo);
 
         servicioArchivo.registrar(arch);
 
@@ -156,7 +156,7 @@ public class ControladorCliente {
 
     private static String extraerExtencion(String nombreArchivo) {
         return Objects.requireNonNull(nombreArchivo).substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
-    }
+    }*/
 
     /***************** NUEVA ACTION PARA EL HISTORIAL DE ARCHIVOS *********************/
 

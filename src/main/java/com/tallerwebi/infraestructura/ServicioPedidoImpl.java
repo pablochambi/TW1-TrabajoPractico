@@ -6,12 +6,14 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.repositorios.RepositorioArchivo;
 import com.tallerwebi.dominio.repositorios.RepositorioPedido;
 import com.tallerwebi.dominio.repositorios.RepositorioUsuario;
+import com.tallerwebi.dominio.servicios.ServicioArchivo;
 import com.tallerwebi.dominio.servicios.ServicioPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Service
@@ -19,13 +21,13 @@ import java.time.LocalDate;
 public class ServicioPedidoImpl implements ServicioPedido {
 
     RepositorioPedido repositorioPedido;
-    RepositorioArchivo repositorioArchivo;
+    ServicioArchivo servicioArchivo;
     RepositorioUsuario repositorioUsuario;
 
     @Autowired
-    public ServicioPedidoImpl(RepositorioPedido repositorioPedido, RepositorioArchivo repositorioArchivo, RepositorioUsuario repositorioUsuario){
+    public ServicioPedidoImpl(RepositorioPedido repositorioPedido, ServicioArchivo servicioArchivo, RepositorioUsuario repositorioUsuario){
         this.repositorioPedido = repositorioPedido;
-        this.repositorioArchivo = repositorioArchivo;
+        this.servicioArchivo = servicioArchivo;
         this.repositorioUsuario = repositorioUsuario;
     }
 
@@ -55,10 +57,14 @@ public class ServicioPedidoImpl implements ServicioPedido {
         archivo.setNombre(file.getOriginalFilename());
         archivo.setTipo(file.getContentType());
         archivo.setPeso((double) file.getSize());
+        try {
+            archivo.setData(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);//CREAR EXCEPTION
+        }
 
-        /*
-        * FALTA ALMACENAR EL CONTENIDO DEL ARCHIVO Y LA DIRECCION DONDE ESTARA GUARDADA
-        * */
+        //GUARDAMOS EN CARPETA EL "file"
+        this.guardarEnCarpeta(file);
 
         //OBTENEMOS EL USUARIO DE LA SESSION
         Usuario usuarioBuscado = this.obtenerUsuarioPorId(idUsuario);
@@ -101,7 +107,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     private void guardarArchivosEnLaBaseDeDatos(Archivo archivo, Pedido pedido) {
         archivo.setPedido(pedido);
-        repositorioArchivo.guardar(archivo);
+        servicioArchivo.registrar(archivo);
     }
 
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
@@ -111,6 +117,10 @@ public class ServicioPedidoImpl implements ServicioPedido {
     private String obtenerFechaHoy() {
         LocalDate date = LocalDate.now();
         return date.toString();
+    }
+
+    private void guardarEnCarpeta(MultipartFile file) {
+        servicioArchivo.guardarEnCarpeta(file);
     }
 }
 
