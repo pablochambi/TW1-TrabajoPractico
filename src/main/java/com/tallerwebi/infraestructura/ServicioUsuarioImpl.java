@@ -85,4 +85,9 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     private static boolean noSeEncontroUsuario(Usuario usuarioBuscado) {
         return usuarioBuscado != null;
     }
+
+    @Override
+    public void modificarUsuario(Usuario usuario){
+        repositorioUsuario.modificar(usuario);
+    }
 }

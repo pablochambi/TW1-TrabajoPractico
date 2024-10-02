@@ -12,4 +12,6 @@ public interface ServicioUsuario {
     Usuario buscarUsuarioPorEmail(String email);
 
     Usuario buscarUsuarioPorId(Long idUsuario);
+
+    void modificarUsuario(Usuario usuario);
 }
