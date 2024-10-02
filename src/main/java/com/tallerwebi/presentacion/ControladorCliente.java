@@ -33,8 +33,6 @@ public class ControladorCliente {
     private ServicioUsuario servicioUsuario;
     private ServicioArchivo servicioArchivo;
 
-    /*private static final String RUTA_ARCHIVOS = "src/main/webapp/resources/core/archivos/";
-
     @Autowired
     public ControladorCliente(ServicioUsuario servicioUsuario,ServicioArchivo servicioArchivo) {
         this.servicioUsuario = servicioUsuario;
@@ -44,55 +42,47 @@ public class ControladorCliente {
     @RequestMapping(path = "/archivos")
     public ModelAndView irAMisArchivos(HttpServletRequest request, ModelMap model) {
 
-        HttpSession session = request.getSession(false);
+        Usuario usuario = obtenerUsuarioPorRequest(request);
+        if(usuario == null) {return new ModelAndView("redirect:/milogin");}
 
-        //ModelMap model = new ModelMap();
+        model.put("nombre", usuario.getNombre());
+        model.put("apellido", usuario.getApellido());
+        model.put("email", usuario.getEmail());
 
-        if (session != null) {
-            Long idUsuario = (Long) session.getAttribute("idUsuario");
-            Usuario usuario = servicioUsuario.buscarUsuarioPorId(idUsuario);
+        List<Archivo> archivosSubidos = servicioArchivo.buscarArchivosPorIdDeUsuario(usuario.getId());
 
-            model.put("nombre", usuario.getNombre());
-            model.put("apellido", usuario.getApellido());
-            model.put("email", usuario.getEmail());
+        model.put("archivos", archivosSubidos);
 
-            List<Archivo> archivosSubidos;
-            archivosSubidos = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
-
-            model.put("archivosSubidos", archivosSubidos);
-
-        }else {
-            return new ModelAndView("redirect:/milogin");
-        }
         return new ModelAndView("archivos",model);
-
     }
 
-    @PostMapping("/subirArchivo")
-    public ModelAndView subirArchivo(@RequestParam("archivo") MultipartFile archivo, HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException {
+    @RequestMapping(path = "/subirArchivo", method = RequestMethod.GET)
+    public ModelAndView irAsubirArchivo() {
+        return new ModelAndView("subirArchivo");
+    }
 
-        HttpSession session = request.getSession(false);
-        if(session == null){return new ModelAndView("redirect:/milogin");}
+    @PostMapping("/subirArchivo/subir")
+    public ModelAndView subirArchivo(@RequestParam("archivo") MultipartFile archivo, HttpServletRequest request) throws IOException {
 
-        String nombreArchivo = archivo.getOriginalFilename();
-        String extension = extraerExtencion(nombreArchivo);
-        Long idUsuario = (Long) session.getAttribute("idUsuario");
-        Usuario usuario = servicioUsuario.buscarUsuarioPorId(idUsuario);
+        Usuario usuario = obtenerUsuarioPorRequest(request);
+        ModelMap model = new ModelMap();
+
+        if(usuario == null) {return new ModelAndView("redirect:/milogin");}
 
         if (archivo.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Debe seleccionar un archivo.");
-            return new ModelAndView("redirect:/archivos");
+            model.put("error", "Debe seleccionar un archivo.");
+            return new ModelAndView("subirArchivo",model);
         }
 
-        if (!extension.equals("jpg") && !extension.equals("pdf")) {
-            redirectAttributes.addFlashAttribute("error", "Solo se permiten archivos con extensión .jpg o .pdf");
-            return new ModelAndView("redirect:/archivos");
+        if(servicioArchivo.noEsExtencionValida(archivo)){
+            model.put("error", "Solo se permiten archivos con extensión .jpg o .pdf");
+            return new ModelAndView("subirArchivo",model);
         }
 
-        guardarArchivoEnLaCarpetaArchivos(archivo, nombreArchivo, usuario);
+        servicioArchivo.guardar(archivo,usuario);
 
-        redirectAttributes.addFlashAttribute("mensaje", "Archivo subido exitosamente.");
-        return new ModelAndView("redirect:/archivos");
+        model.put("mensaje", "Archivo subido exitosamente.");
+        return new ModelAndView("subirArchivo",model);
     }
 
     @GetMapping("/archivos/lista")
@@ -112,54 +102,17 @@ public class ControladorCliente {
         HttpSession session = request.getSession(false);
         if (session == null) {return new ModelAndView("redirect:/milogin");}
 
-        Long idUsuario = (Long) session.getAttribute("idUsuario");
-
-        String nombreArchivo  = servicioArchivo.getNombreArchivoPorID(archivo_id);
-
         servicioArchivo.eliminarPorId(archivo_id);
-
-        Path rutaArchivo = Paths.get(RUTA_ARCHIVOS + nombreArchivo);
-
-        // Verificar si el archivo existe antes de intentar eliminarlo
-        if (Files.exists(rutaArchivo)) {
-            Files.delete(rutaArchivo); // Eliminar el archivo
-            System.out.println("Archivo eliminado: " + rutaArchivo);
-        } else {
-            System.out.println("El archivo no existe: " + rutaArchivo);
-        }
 
         return new ModelAndView("redirect:/archivos");
     }
 
 
-    private void guardarArchivoEnLaCarpetaArchivos(MultipartFile archivo, String nombreArchivo,Usuario usuario) throws IOException {
-        byte[] bytes = archivo.getBytes();
-        Path ruta = Paths.get(RUTA_ARCHIVOS + nombreArchivo);
-        Files.write(ruta, bytes);
 
-        // Obtener el tamaño del archivo en MB
-        Double tamanioEnMb = archivo.getSize() / 1048576.0;
-        String extencion = extraerExtencion(nombreArchivo);
-
-
-        Archivo arch = new Archivo();
-        arch.setUsuario(usuario);
-        arch.setNombre(nombreArchivo);
-        arch.setTipo(extencion);
-        arch.setPeso(tamanioEnMb);
-        arch.setPedido(null);
-        //arch.setDireccion(RUTA_ARCHIVOS + nombreArchivo);
-
-        servicioArchivo.registrar(arch);
-
-    }
-
-    private static String extraerExtencion(String nombreArchivo) {
-        return Objects.requireNonNull(nombreArchivo).substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
-    }*/
 
     /***************** NUEVA ACTION PARA EL HISTORIAL DE ARCHIVOS *********************/
 
+/*
     @RequestMapping(path = "/historialArchivos")
     public ModelAndView historial(HttpServletRequest request) {
         Long idUsuario = this.obtenerIdUsuario(request);
@@ -168,12 +121,25 @@ public class ControladorCliente {
         }
 
         List<Archivo> archivosEncontrados = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
+
         ModelMap model = new ModelMap();
         model.put("archivos", archivosEncontrados);
+
         return new ModelAndView("archivos", model);
-    }
+    }*/
+
 
     private Long obtenerIdUsuario(HttpServletRequest request) {
         return (Long) request.getSession().getAttribute("idUsuario");
+    }
+
+    private Usuario obtenerUsuarioPorRequest(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+
+        if(session == null) {return null;}
+
+        Long usuario_id =  (Long) request.getSession().getAttribute("idUsuario");
+        return servicioUsuario.buscarUsuarioPorId(usuario_id);
     }
 }

@@ -23,18 +23,8 @@
   <div th:insert="templates/header :: header"></div>
 
   <h2>Subir Archivo</h2>
+  <a class="nav-link" th:href="@{/subirArchivo}">Subir Archivo</a>
 
-  <!-- Mostrar mensajes de error o éxito
-  <div th:if="${error}" th:text="${error}" style="color: red;"></div>
-  <div th:if="${mensaje}" th:text="${mensaje}" style="color: green;"></div>
-
-  <form action="#" th:action="@{/subirArchivo}" method="post" enctype="multipart/form-data" onsubmit="return validarExtension()">
-    <label for="archivo">Seleccione un archivo (jpg ó pdf):</label>
-    <input type="file" id="archivo" name="archivo" accept=".jpg,.pdf" required>
-    <br><br>
-    <button type="submit">Subir</button>
-  </form>
--->
   <h2>Lista de Archivos Subidos:</h2>
 
   <!-- Tabla de archivos -->
@@ -68,19 +58,7 @@
   </div>
 
 
-  <script>/*
-    function validarExtension() {
-      const archivoInput = document.getElementById("archivo");
-      const archivoRuta = archivoInput.value;
-      const extensionesPermitidas = /(\.jpg|\.pdf)$/i;
-      if (!extensionesPermitidas.exec(archivoRuta)) {
-        alert("Solo se permiten archivos con extensión .jpg o .pdf");
-        archivoInput.value = '';
-        return false;
-      }
-      return true;
-    }*/
-  </script>
+
 
   <!-- jQuery Script para actualizar la tabla -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
