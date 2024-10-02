@@ -85,17 +85,6 @@ public class ControladorCliente {
         return new ModelAndView("subirArchivo",model);
     }
 
-    @GetMapping("/archivos/lista")
-    @ResponseBody//<----- Convierte una lista de archivos a JSON
-    public List<Archivo> obtenerListaArchivos(HttpServletRequest request) {
-
-        HttpSession session = request.getSession(false);
-        if (session == null) {return new ArrayList<>();}
-
-        Long idUsuario = (Long) session.getAttribute("idUsuario");
-        return servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
-    }
-
     @RequestMapping(path = "/archivos/eliminar", method = RequestMethod.GET)
     public ModelAndView eliminarUnArchivo(@RequestParam("archivo_id") Long archivo_id, HttpServletRequest request) throws IOException {
 
@@ -108,27 +97,6 @@ public class ControladorCliente {
 
         return new ModelAndView("redirect:/archivos");
     }
-
-
-
-
-    /***************** NUEVA ACTION PARA EL HISTORIAL DE ARCHIVOS *********************/
-
-/*
-    @RequestMapping(path = "/historialArchivos")
-    public ModelAndView historial(HttpServletRequest request) {
-        Long idUsuario = this.obtenerIdUsuario(request);
-        if (idUsuario == null){
-            return new ModelAndView("redirect:/milogin");
-        }
-
-        List<Archivo> archivosEncontrados = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
-
-        ModelMap model = new ModelMap();
-        model.put("archivos", archivosEncontrados);
-
-        return new ModelAndView("archivos", model);
-    }*/
 
 
     private Long obtenerIdUsuario(HttpServletRequest request) {
