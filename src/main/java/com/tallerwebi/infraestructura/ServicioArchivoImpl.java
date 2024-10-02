@@ -87,6 +87,14 @@ public class ServicioArchivoImpl implements ServicioArchivo {
         }
     }
 
+
+    /*
+    * METODOS QUE FALTAN
+    * que el archivo sea JPG o PDF
+    * que se pueda eliminar el archivo de la carpeta y BD en el historial de archivos
+    * que se pueda descargar el archivo el el historial de archivos
+    * */
+
     @Override
     @Transactional
     public void guardar(MultipartFile file, Usuario usuario) throws IOException {
