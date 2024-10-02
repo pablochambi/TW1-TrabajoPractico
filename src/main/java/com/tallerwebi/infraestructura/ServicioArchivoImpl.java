@@ -2,6 +2,7 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Archivo;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepciones.ErrorAlTranferirArchivo;
 import com.tallerwebi.dominio.repositorios.RepositorioArchivo;
 import com.tallerwebi.dominio.repositorios.RepositorioUsuario;
 import com.tallerwebi.dominio.servicios.ServicioArchivo;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,7 +50,7 @@ public class ServicioArchivoImpl implements ServicioArchivo {
         }
         return this.repositorioArchivo.buscarPorIdDeUsuario(usuario);
     }
-
+/*
     @Override
     public void eliminarPorId(Long archivoId) throws IOException {
         if(archivoId==null || archivoId<=0 ){
@@ -66,7 +68,35 @@ public class ServicioArchivoImpl implements ServicioArchivo {
         } else {
             System.out.println("El archivo no existe: " + rutaArchivo);
         }
+    }*/
+
+
+    @Override
+    public void eliminarPorId(Long archivoId, Long usuarioId) throws IOException {
+        if (archivoId == null || archivoId <= 0) {
+            throw new IllegalArgumentException("El id del archivo no puede ser nulo o menor a cero");
+        }
+
+        // Buscar el archivo en el repositorio
+        Archivo archivo = repositorioArchivo.buscarPorId(archivoId);
+        if (archivo == null) {
+            throw new IllegalArgumentException("No se encontró el archivo con el id proporcionado");
+        }
+
+        repositorioArchivo.eliminar(archivo);
+
+        // Construir la ruta del archivo en la carpeta específica del usuario
+        Path rutaArchivo = Paths.get(RUTA_ARCHIVOS + "Cliente_0" + usuarioId + "/" + archivo.getNombre());
+
+        // Verificar si el archivo existe antes de intentar eliminarlo
+        if (Files.exists(rutaArchivo)) {
+            Files.delete(rutaArchivo); // Eliminar el archivo
+            System.out.println("Archivo eliminado: " + rutaArchivo);
+        } else {
+            System.out.println("El archivo no existe: " + rutaArchivo);
+        }
     }
+
 
     @Override
     public String getNombreArchivoPorID(Long archivoId) {
@@ -75,42 +105,48 @@ public class ServicioArchivoImpl implements ServicioArchivo {
     }
 
     @Override
-    public void guardarEnCarpeta(MultipartFile file) {
+    public void guardarEnCarpeta(MultipartFile file, Long usuario_id) {
 
-        //CREAMOS EL ARCHIVO EN LA RUTA DE ARRIBA
-        Path rutaArchivo = Paths.get(RUTA_ARCHIVOS + file.getOriginalFilename());
-        //GUARDAMOS EL ARCHIVO EN LA RUTA ESPECIFICADA
-        try {
-            Files.write(rutaArchivo, file.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        // Crear la carpeta si no existe
+        File directorio = new File(RUTA_ARCHIVOS + "Cliente_0" + usuario_id);
+        if (!directorio.exists()) {
+            directorio.mkdirs(); // Crea el directorio y cualquier directorio padre necesario
         }
+
+        // Guardar el archivo en la carpeta especificada
+        File archivo = new File(directorio, file.getOriginalFilename());
+        try {
+            file.transferTo(archivo); // Guarda el archivo
+            // Vista de éxito
+        } catch (IOException e) {
+            throw new ErrorAlTranferirArchivo();
+        }
+
     }
 
+
+
     @Override
-    @Transactional
-    public void guardar(MultipartFile file, Usuario usuario) throws IOException {
+    public Archivo guardar(MultipartFile file, Long usuario_id) throws IOException {
 
-        //Se sube el archivo en la ruta especificada
-        Path ruta = Paths.get(RUTA_ARCHIVOS + file.getOriginalFilename());
-        Files.write(ruta, file.getBytes());
+        if (file.isEmpty()){return null;}//EXCEPTION
 
-        // Obtener el tamaño del archivo en MB
-        Double tamanioEnMb = file.getSize() / 1048576.0;
+        Double tamanioEnMB = file.getSize() / 1048576.0;
 
         //Guardar el archivo
         Archivo archivo = new Archivo();
         //arch.setUsuario(usuario);
         archivo.setNombre(file.getOriginalFilename());
         archivo.setTipo(extraerExtencion(file.getOriginalFilename()));
-        archivo.setPeso(tamanioEnMb);
-        archivo.setPedido(null);
+        archivo.setPeso(tamanioEnMB);
         archivo.setDireccion(RUTA_ARCHIVOS + file.getOriginalFilename());
 
-        //usuario.addArchivo(archivo);
+        guardarEnCarpeta(file,usuario_id);
 
-        repositorioArchivo.guardar(archivo, usuario);
+        return repositorioArchivo.guardar(archivo, usuario_id);
     }
+
+
 
     @Override
     public boolean noEsExtencionValida(MultipartFile file) {
@@ -118,8 +154,10 @@ public class ServicioArchivoImpl implements ServicioArchivo {
         return !extencion.equalsIgnoreCase("pdf") && !extencion.equalsIgnoreCase("jpg");
     }
 
-    private static String extraerExtencion(String nombreArchivo) {
+    private String extraerExtencion(String nombreArchivo) {
         return Objects.requireNonNull(nombreArchivo).substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
     }
+
+
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RepositorioArchivo {
 
-    void guardar(Archivo archivo, Usuario usuario);
+    Archivo guardar(Archivo archivo, Long usuario_id);
 
     void guardar(Archivo archivo);
 

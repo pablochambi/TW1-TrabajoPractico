@@ -3,7 +3,6 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.Archivo;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.repositorios.RepositorioArchivo;
 import com.tallerwebi.dominio.repositorios.RepositorioPedido;
 import com.tallerwebi.dominio.repositorios.RepositorioUsuario;
 import com.tallerwebi.dominio.servicios.ServicioArchivo;
@@ -64,7 +63,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
         }
 
         //GUARDAMOS EN CARPETA EL "file"
-        this.guardarEnCarpeta(file);
+        this.guardarEnCarpeta(file,idUsuario);
 
         //OBTENEMOS EL USUARIO DE LA SESSION
         Usuario usuarioBuscado = this.obtenerUsuarioPorId(idUsuario);
@@ -119,8 +118,8 @@ public class ServicioPedidoImpl implements ServicioPedido {
         return date.toString();
     }
 
-    private void guardarEnCarpeta(MultipartFile file) {
-        servicioArchivo.guardarEnCarpeta(file);
+    private void guardarEnCarpeta(MultipartFile file, Long usuario_id) {
+        servicioArchivo.guardarEnCarpeta(file, usuario_id);
     }
 }
 

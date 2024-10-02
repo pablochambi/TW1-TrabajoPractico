@@ -27,12 +27,15 @@ public class RepositorioArchivoImpl implements RepositorioArchivo {
 
     @Override
     @Transactional
-    public void guardar(Archivo archivo, Usuario usuario) {
-        // Recargar el usuario desde la base de datos
-        Usuario usuarioPersistente = repositorioUsuario.buscarPorId(usuario.getId());
-        archivo.setUsuario(usuarioPersistente);
-        usuarioPersistente.getArchivos().add(archivo);
+    public Archivo guardar(Archivo archivo, Long usuario_id) {
+
+        if(archivo==null || usuario_id==null){return null;}
+
+        Usuario usuario = repositorioUsuario.buscarPorId(usuario_id);
+        archivo.setUsuario(usuario);
+        usuario.getArchivos().add(archivo);
         sessionFactory.getCurrentSession().save(archivo);
+        return archivo;
     }
 
     @Override
