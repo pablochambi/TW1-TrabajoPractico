@@ -6,7 +6,11 @@ import com.tallerwebi.dominio.Usuario;
 import java.util.List;
 
 public interface RepositorioArchivo {
+
+    void guardar(Archivo archivo, Usuario usuario);
+
     void guardar(Archivo archivo);
+
     List<Archivo> buscarPorIdDeUsuario(Usuario usuario);
 
     void eliminar(Archivo archivo);

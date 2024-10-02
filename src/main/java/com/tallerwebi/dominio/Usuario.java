@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 //import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,10 +21,14 @@ public class Usuario {
     private String apellido;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pedido> misPedidos;
+    private List<Pedido> misPedidos= new ArrayList<>();
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Archivo> misArchivos;
+    private List<Archivo> misArchivos = new ArrayList<>();
 
+    public void addArchivo(Archivo archivo) {
+        misArchivos.add(archivo);
+        archivo.setUsuario(this);
+    }
 
     public Long getId() {
         return id;

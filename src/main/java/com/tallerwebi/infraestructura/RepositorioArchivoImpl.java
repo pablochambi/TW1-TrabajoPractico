@@ -10,16 +10,29 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 public class RepositorioArchivoImpl implements RepositorioArchivo {
 
+    private final RepositorioUsuarioImpl repositorioUsuario;
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioArchivoImpl(SessionFactory sessionFactory) {
+    public RepositorioArchivoImpl(SessionFactory sessionFactory, RepositorioUsuarioImpl repositorioUsuario) {
         this.sessionFactory = sessionFactory;
+        this.repositorioUsuario = repositorioUsuario;
+    }
+
+    @Override
+    @Transactional
+    public void guardar(Archivo archivo, Usuario usuario) {
+        // Recargar el usuario desde la base de datos
+        Usuario usuarioPersistente = repositorioUsuario.buscarPorId(usuario.getId());
+        archivo.setUsuario(usuarioPersistente);
+        usuarioPersistente.getArchivos().add(archivo);
+        sessionFactory.getCurrentSession().save(archivo);
     }
 
     @Override
