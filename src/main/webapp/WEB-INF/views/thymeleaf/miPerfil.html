@@ -27,16 +27,16 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="form-container">
-          <form id="registro-form" th:action="@{registrarme}" th:object="${usuario}" method="post">
+          <form id="registro-form" th:action="@{editarPerfil}" th:object="${usuario}" method="post">
             <h2 class="mb-3">Mi Perfil</h2>
 
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input readonly type="text" class="form-control" id="nombre" name="nombre"  th:value="${usuario.nombre}">
+              <input type="text" class="form-control" id="nombre" name="nombre"  th:value="${usuario.nombre}">
             </div>
             <div class="mb-3">
               <label for="apellido" class="form-label">Apellido</label>
-              <input readonly type="text" class="form-control" id="apellido" name="apellido" th:value="${usuario.apellido}" >
+              <input type="text" class="form-control" id="apellido" name="apellido" th:value="${usuario.apellido}" >
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo Electrónico:</label>
@@ -44,8 +44,9 @@
             </div>
             <div class="mb-3">
               <label for="username" class="form-label">Nombre de Usuario:</label>
-              <input  readonly type="text" class="form-control" id="username" name="username" required th:value="${usuario.username}" >
+              <input type="text" class="form-control" id="username" name="username" required th:value="${usuario.username}" >
             </div>
+            <button type="submit" class="btn btn-lg btn-success btn-block">Guardar</button>
             <a th:href="@{/home}" class="btn btn-lg btn-primary btn-block">Volver</a>
             <div class="card-footer text-center">
             </div>

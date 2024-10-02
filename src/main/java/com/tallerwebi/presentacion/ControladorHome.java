@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,14 +53,39 @@ public class ControladorHome {
         return new ModelAndView("redirect:/milogin");
     }
 
-    @RequestMapping(path = "/perfil",method = RequestMethod.GET)
-    public ModelAndView irAMiPerfil(@ModelAttribute("email") String email){
+    @RequestMapping(path = "/perfil")
+    public ModelAndView irAMiPerfil(HttpServletRequest request){
 
-        Usuario usuario = servicioUsuario.buscarUsuarioPorEmail(email);
+        Usuario usuario = obtenerUsuarioPorRequest(request);
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("usuario", usuario);
 
         return new ModelAndView("miPerfil",modelo);
+    }
+
+    private Usuario obtenerUsuarioPorRequest(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+
+        if(session == null) {return null;}
+
+        Long usuario_id =  (Long) request.getSession().getAttribute("idUsuario");
+        return servicioUsuario.buscarUsuarioPorId(usuario_id);
+    }
+
+    @RequestMapping(path = "/editarPerfil", method = RequestMethod.POST)
+    public ModelAndView editarPerfil(@RequestParam("nombre") String nombre,
+                                     @RequestParam("apellido") String apellido,
+                                     @RequestParam("username") String username,
+                                     HttpServletRequest request) {
+
+        Usuario usuario = obtenerUsuarioPorRequest(request);
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setUsername(username);
+        servicioUsuario.modificarUsuario(usuario);
+
+        return new ModelAndView("redirect:/home");
     }
 
 }
