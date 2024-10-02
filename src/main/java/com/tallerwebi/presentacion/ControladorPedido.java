@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Archivo;
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.servicios.ServicioArchivo;
 import com.tallerwebi.dominio.servicios.ServicioPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +15,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Controller
 public class ControladorPedido {
 
     private ServicioPedido servicioPedido;
+    private ServicioArchivo servicioArchivo;
 
     @Autowired
-    public ControladorPedido(ServicioPedido servicioPedido) {
+    public ControladorPedido(ServicioPedido servicioPedido,ServicioArchivo servicioArchivo) {
         this.servicioPedido = servicioPedido;
+        this.servicioArchivo = servicioArchivo;
     }
 
     @RequestMapping(path = "/formPedido")
@@ -54,16 +58,17 @@ public class ControladorPedido {
                                        @RequestParam("file1") MultipartFile file1,
                                        @RequestParam("file2") MultipartFile file2,
                                        @RequestParam("file3") MultipartFile file3,
-                                       HttpServletRequest request){
+                                       HttpServletRequest request) throws IOException {
 
         Long idUsuario = obtenerIdUsuario(request);
         if (idUsuario == null) {
             return new ModelAndView("redirect:/milogin");
         }
 
-        Archivo archivoA = servicioPedido.validarArchivo(file1, idUsuario);
-        Archivo archivoB = servicioPedido.validarArchivo(file2, idUsuario);
-        Archivo archivoC = servicioPedido.validarArchivo(file3, idUsuario);
+        Archivo archivoA = servicioArchivo.guardar(file1, idUsuario);
+        Archivo archivoB = servicioArchivo.guardar(file2, idUsuario);
+        Archivo archivoC = servicioArchivo.guardar(file3, idUsuario);
+
         Pedido pedido = servicioPedido.realizarPedido(nombre, tipoPedido, archivoA, archivoB, archivoC, idUsuario);
         ModelMap model = new ModelMap();
         model.put("pedido",pedido);

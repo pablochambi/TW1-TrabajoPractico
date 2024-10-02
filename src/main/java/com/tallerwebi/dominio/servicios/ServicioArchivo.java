@@ -1,7 +1,6 @@
 package com.tallerwebi.dominio.servicios;
 
 import com.tallerwebi.dominio.Archivo;
-import com.tallerwebi.dominio.Usuario;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,13 +11,14 @@ public interface ServicioArchivo {
 
     List<Archivo> buscarArchivosPorIdDeUsuario(Long idUsuario);
 
-    void eliminarPorId(Long archivoId) throws IOException;
+    void eliminarPorId(Long archivoId,Long usuarioId) throws IOException;
 
     String getNombreArchivoPorID(Long archivoId);
 
-    void guardarEnCarpeta(MultipartFile file);
+    void guardarEnCarpeta(MultipartFile file, Long usuario_id);
 
-    void guardar(MultipartFile archivo, Usuario usuario) throws IOException;
-    boolean noEsExtencionValida(MultipartFile archivo);
+    Archivo guardar(MultipartFile file, Long usuario_id) throws IOException;
+
+    boolean noEsExtencionValida(MultipartFile file);
 
 }

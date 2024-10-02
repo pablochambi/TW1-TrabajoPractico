@@ -62,71 +62,41 @@ public class ControladorCliente {
     }
 
     @PostMapping("/subirArchivo/subir")
-    public ModelAndView subirArchivo(@RequestParam("archivo") MultipartFile archivo, HttpServletRequest request) throws IOException {
+    public ModelAndView subirArchivo(@RequestParam("archivo") MultipartFile file, HttpServletRequest request) throws IOException {
 
-        Usuario usuario = obtenerUsuarioPorRequest(request);
+        Long usuario_id = obtenerIdUsuarioPorRequest(request);
         ModelMap model = new ModelMap();
 
-        if(usuario == null) {return new ModelAndView("redirect:/milogin");}
+        if(usuario_id == null) {return new ModelAndView("redirect:/milogin");}
 
-        if (archivo.isEmpty()) {
+        if (file.isEmpty()) {
             model.put("error", "Debe seleccionar un archivo.");
             return new ModelAndView("subirArchivo",model);
         }
 
-        if(servicioArchivo.noEsExtencionValida(archivo)){
+        if(servicioArchivo.noEsExtencionValida(file)){
             model.put("error", "Solo se permiten archivos con extensión .jpg o .pdf");
             return new ModelAndView("subirArchivo",model);
         }
 
-        servicioArchivo.guardar(archivo,usuario);
+        servicioArchivo.guardar(file,usuario_id);
 
         model.put("mensaje", "Archivo subido exitosamente.");
         return new ModelAndView("subirArchivo",model);
-    }
-
-    @GetMapping("/archivos/lista")
-    @ResponseBody//<----- Convierte una lista de archivos a JSON
-    public List<Archivo> obtenerListaArchivos(HttpServletRequest request) {
-
-        HttpSession session = request.getSession(false);
-        if (session == null) {return new ArrayList<>();}
-
-        Long idUsuario = (Long) session.getAttribute("idUsuario");
-        return servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
     }
 
     @RequestMapping(path = "/archivos/eliminar", method = RequestMethod.GET)
     public ModelAndView eliminarUnArchivo(@RequestParam("archivo_id") Long archivo_id, HttpServletRequest request) throws IOException {
 
         HttpSession session = request.getSession(false);
+        Long usuario_id = obtenerIdUsuarioPorRequest(request);
         if (session == null) {return new ModelAndView("redirect:/milogin");}
 
-        servicioArchivo.eliminarPorId(archivo_id);
+
+        servicioArchivo.eliminarPorId(archivo_id,usuario_id);
 
         return new ModelAndView("redirect:/archivos");
     }
-
-
-
-
-    /***************** NUEVA ACTION PARA EL HISTORIAL DE ARCHIVOS *********************/
-
-/*
-    @RequestMapping(path = "/historialArchivos")
-    public ModelAndView historial(HttpServletRequest request) {
-        Long idUsuario = this.obtenerIdUsuario(request);
-        if (idUsuario == null){
-            return new ModelAndView("redirect:/milogin");
-        }
-
-        List<Archivo> archivosEncontrados = servicioArchivo.buscarArchivosPorIdDeUsuario(idUsuario);
-
-        ModelMap model = new ModelMap();
-        model.put("archivos", archivosEncontrados);
-
-        return new ModelAndView("archivos", model);
-    }*/
 
 
     private Long obtenerIdUsuario(HttpServletRequest request) {
@@ -142,4 +112,12 @@ public class ControladorCliente {
         Long usuario_id =  (Long) request.getSession().getAttribute("idUsuario");
         return servicioUsuario.buscarUsuarioPorId(usuario_id);
     }
+
+    private Long obtenerIdUsuarioPorRequest(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if(session == null) {return null;}
+        return (Long) request.getSession().getAttribute("idUsuario");
+    }
+
 }

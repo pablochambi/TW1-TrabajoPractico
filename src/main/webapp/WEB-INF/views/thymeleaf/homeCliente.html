@@ -1,56 +1,39 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Boostrap core css -->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
-    <!--ICONOS DE FONT AWESOME-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer">
-
-    <!-- Mis estilos -->
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-
-    <title>Home de Usuario</title>
-</head>
-<body style="background-color: rgb(172, 172, 172);">
-
-            <!--Header-->
-    <div th:insert="templates/header :: header"></div>
-
+<!--Head (LINK, STYLE, ETC) -->
+<head th:insert="templates/head :: head"></head>
+<body >
+<!--Header (NAVEGADOR) -->
+<div th:insert="templates/header :: header"></div>
     <main>
-        <div style="text-align: center; margin: 30px">
-            <h1>¡Bienvenido!</h1>
-        </div>
 
-        <div class="container" >
-            <!-- Contenido aquí -->
-            <div class="row" >
-                <div class="col-6" style="margin: auto;">
-                    <div class="p-4" style="min-width: 300px;">
-                        <div class="card-body">
-                            <h1>Telas sublimadas con tus diseños</h1>
-                            <h3>Variedad de telas a eleccion</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6" style="margin: auto;">
-                    <div class="carta" style="min-width: 300px;">
-                        <div class="card-body">
-                            <img th:src="@{/images/telas_sublimadas.jpg}" alt="telas sublimadas" style="max-width: 100%;">
-                        </div>
-                    </div>
+        <section class="w-100 position-relative">
+            <div class="d-flex justify-content-center align-items-center flex-column position-absolute top-0 bottom-0 bg-black bg-opacity-50 w-100 text-light text-center">
+                <h1 class="text-center p-4 m-0">Bienvenido  <span th:text="${nombre}"></span></h1>
+                <p class="text-start fs-5 p-4 w-50 m-0">
+                    Crea tus pedidos de sublimación,
+                    sube tus diseños y segui el estado de tus pedidos en tiempo real.
+                    Te notificamos sobre cualquier actualización.
+                    Explora nuestro catálogo de rollos de tela y
+                    gestiona tus compras y proyectos de sublimación fácilmente desde un solo lugar.
+                </p>
+                <a th:href="@{/formPedido}" class="btn m-4 btn-lg btn-warning w-25 fw-bold ">
+                    Hacer un pedido
+                </a>
+                <div class="d-flex flex-row">
+                    <a href="#" class="btn btn-outline-warning btn-lg m-2">
+                        Ver tus pedidos
+                    </a>
+                    <a th:href="@{/archivos}" class="btn btn-outline-warning btn-lg m-2">
+                        Ver tus archivos
+                    </a>
                 </div>
             </div>
-        </div>
+            <img th:src="@{/images/plotter_1.jpg}" alt="telas sublimadas" style="max-width: 100%;">
+        </section>
     </main>
-
-            <!-- Boostrap core javascript -->
-            <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-
+    <div th:insert="templates/footer :: footer"></div>
+<!-- Boostrap core javascript -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>

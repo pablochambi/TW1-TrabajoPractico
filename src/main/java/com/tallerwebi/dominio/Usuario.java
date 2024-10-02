@@ -6,7 +6,6 @@ import java.util.List;
 //import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-//@JsonIgnoreProperties({"archivos"}) //<-- Ignora la lista de archivos durante la serialización de usuario a JSON
 public class Usuario {
 
     @Id
@@ -22,6 +21,7 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> misPedidos= new ArrayList<>();
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Archivo> misArchivos = new ArrayList<>();
 
@@ -98,5 +98,13 @@ public class Usuario {
 
     public void setArchivos(List<Archivo> archivos) {
         this.misArchivos = archivos;
+    }
+
+    public List<Pedido> getMisPedidos() {
+        return misPedidos;
+    }
+
+    public void setMisPedidos(List<Pedido> misPedidos) {
+        this.misPedidos = misPedidos;
     }
 }

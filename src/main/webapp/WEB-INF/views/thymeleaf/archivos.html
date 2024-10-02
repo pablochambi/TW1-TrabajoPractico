@@ -23,7 +23,7 @@
   <div th:insert="templates/header :: header"></div>
 
   <h2>Subir Archivo</h2>
-  <a class="nav-link" th:href="@{/subirArchivo}">Subir Archivo</a>
+  <a class="btn btn-success" th:href="@{/subirArchivo}">Subir Archivo</a>
 
   <h2>Lista de Archivos Subidos:</h2>
 
@@ -32,25 +32,26 @@
     <table id="tablaArchivos" class="table table-striped table-bordered">
       <thead class="table-dark">
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">Nombre</th>
+        <th scope="col">Tipo</th>
         <th scope="col">Peso (MB)</th>
-        <th scope="col">Usuario ID</th>
+        <th scope="col">Acciones</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="arch : ${archivos}">
-        <td>
-          <p th:text="${arch.id}"></p>
-        </td>
+
         <td>
           <p th:text="${arch.nombre}"></p>
+        </td>
+        <td>
+          <p th:text="${arch.tipo}"></p>
         </td>
         <td>
           <p th:text="${arch.peso}"></p>
         </td>
         <td>
-          <p th:text="${arch.usuario}"></p>
+          <a th:href="@{/archivos/eliminar(archivo_id=${arch.id})}" class="btn btn-danger btn-sm">Eliminar</a>
         </td>
       </tr>
       </tbody>

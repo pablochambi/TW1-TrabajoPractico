@@ -22,18 +22,29 @@
   <!--Header-->
   <div th:insert="templates/header :: header"></div>
 
-  <!-- Mostrar mensajes de error o éxito -->
-  <div th:if="${error}" th:text="${error}" style="color: red;"></div>
-  <div th:if="${mensaje}" th:text="${mensaje}" style="color: green;"></div>
 
-  <form th:action="@{/subirArchivo/subir}" method="post" enctype="multipart/form-data" onsubmit="return validarExtension()">
-    <label for="archivo">Seleccione un archivo (jpg ó pdf):</label>
-    <input type="file" id="archivo" name="archivo" accept=".jpg,.pdf" required>
-    <br><br>
-    <button type="submit">Subir</button>
-  </form>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body custom-card-body">
+          <form th:action="@{/subirArchivo/subir}" method="post" enctype="multipart/form-data" onsubmit="return validarExtension()">
+            <label for="archivo">Seleccione un archivo (jpg ó pdf):</label>
+            <input type="file" id="archivo" name="archivo" accept=".jpg,.pdf" required>
+            <br><br>
+            <button class="btn btn-success" type="submit">Subir</button>
+          </form>
+        </div>
 
-  <a class="nav-link" th:href="@{/archivos}">Volver</a>
+        <!-- Mostrar mensajes de error o éxito -->
+        <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+        <div th:if="${mensaje}" th:text="${mensaje}" style="color: green;"></div>
+        <br>
+        <a class="btn btn-primary" th:href="@{/archivos}">Volver</a>
+      </div>
+    </div>
+  </div>
+
+
 
   <script>
     function validarExtension() {
