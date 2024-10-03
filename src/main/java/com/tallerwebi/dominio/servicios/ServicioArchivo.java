@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio.servicios;
 
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.Pedido;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,4 +22,5 @@ public interface ServicioArchivo {
 
     boolean noEsExtencionValida(MultipartFile file);
 
+    List<Archivo> buscarArchivosPorPedido(Pedido pedido);
 }

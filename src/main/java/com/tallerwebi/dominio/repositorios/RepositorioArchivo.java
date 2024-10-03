@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio.repositorios;
 
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Usuario;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface RepositorioArchivo {
     Archivo buscarPorId(Long archivoId);
 
     String getNombrePorID(Long archivoId);
+
+    List<Archivo> buscarPorPedido(Pedido pedido);
 }

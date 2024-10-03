@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class ControladorPedido {
@@ -70,8 +71,10 @@ public class ControladorPedido {
         Archivo archivoC = servicioArchivo.guardar(file3, idUsuario);
 
         Pedido pedido = servicioPedido.realizarPedido(nombre, tipoPedido, archivoA, archivoB, archivoC, idUsuario);
+        List<Archivo> archivosDelPedido = servicioArchivo.buscarArchivosPorPedido(pedido);
         ModelMap model = new ModelMap();
         model.put("pedido",pedido);
+        model.put("archivos", archivosDelPedido);
         return new ModelAndView("mostrarPedido", model);
     }
 

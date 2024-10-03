@@ -1,6 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepciones.ErrorAlTranferirArchivo;
 import com.tallerwebi.dominio.repositorios.RepositorioArchivo;
@@ -152,6 +153,11 @@ public class ServicioArchivoImpl implements ServicioArchivo {
     public boolean noEsExtencionValida(MultipartFile file) {
         String extencion = extraerExtencion(file.getOriginalFilename());
         return !extencion.equalsIgnoreCase("pdf") && !extencion.equalsIgnoreCase("jpg");
+    }
+
+    @Override
+    public List<Archivo> buscarArchivosPorPedido(Pedido pedido) {
+        return repositorioArchivo.buscarPorPedido(pedido);
     }
 
     private String extraerExtencion(String nombreArchivo) {
