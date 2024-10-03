@@ -6,7 +6,23 @@
 <!--Header (NAVEGADOR) -->
 <div th:insert="templates/header :: header"></div>
     <main>
-
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel">Notificaciones</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="card">
+                    <div class="card-body text-black">
+                        <h5 class="card-title">Titulo Notificacion</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Nro Pedido</h6>
+                        <p class="card-text">Su pedido tiene demora</p>
+                        <a href="#" class="card-link">Descartar</a>
+                        <a href="#" class="card-link">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <section class="w-100 position-relative">
             <div class="d-flex justify-content-center align-items-center flex-column position-absolute top-0 bottom-0 bg-black bg-opacity-50 w-100 text-light text-center">
                 <h1 class="text-center p-4 m-0">Bienvenido  <span th:text="${nombre}"></span></h1>
