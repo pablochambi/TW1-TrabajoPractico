@@ -27,8 +27,8 @@ public class HibernateConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/tallerweb1_2024");
         dataSource.setUsername("root");
-        dataSource.setPassword("programacion"); //MAIN
-        //dataSource.setPassword("HattoriHanzo123"); //PABLOR
+        //dataSource.setPassword("programacion"); //MAIN
+        dataSource.setPassword("HattoriHanzo123"); //PABLOR
         return dataSource;
     }
 

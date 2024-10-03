@@ -1,6 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.repositorios.RepositorioArchivo;
 import org.hibernate.Session;
@@ -72,6 +73,14 @@ public class RepositorioArchivoImpl implements RepositorioArchivo {
                 .setProjection(Projections.property("nombre")) // Seleccionar solo el campo "nombre"
                 .uniqueResult();
 
+    }
+
+    @Override
+    public List<Archivo> buscarPorPedido(Pedido pedido) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Archivo.class)
+                .add(Restrictions.eq("pedido", pedido))
+                .list();
     }
 
 }

@@ -93,10 +93,10 @@ public class ServicioPedidoImpl implements ServicioPedido {
         Usuario usuarioBuscado = this.obtenerUsuarioPorId(idUsuario);
         pedido.setUsuario(usuarioBuscado);
 
-        //GUARDAMOS LOS ARCHIVOS YA VALIDADOS
-        this.guardarArchivosEnLaBaseDeDatos(archivoA, pedido);
-        this.guardarArchivosEnLaBaseDeDatos(archivoB, pedido);
-        this.guardarArchivosEnLaBaseDeDatos(archivoC, pedido);
+        //ASIGNAMOS LOS ARCHIVOS AL PEDIDO YA CREADO
+        this.asignarPedidoAlArchivo(archivoA, pedido);
+        this.asignarPedidoAlArchivo(archivoB, pedido);
+        this.asignarPedidoAlArchivo(archivoC, pedido);
 
         //GUARDAMOS EL PEDIDO
         repositorioPedido.guardar(pedido);
@@ -104,10 +104,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
         return pedido;
     }
 
-    private void guardarArchivosEnLaBaseDeDatos(Archivo archivo, Pedido pedido) {
-        archivo.setPedido(pedido);
-        servicioArchivo.registrar(archivo);
-    }
+    private void asignarPedidoAlArchivo(Archivo archivo, Pedido pedido) { archivo.setPedido(pedido); }
 
     private Usuario obtenerUsuarioPorId(Long idUsuario) {
         return repositorioUsuario.buscarPorId(idUsuario);
