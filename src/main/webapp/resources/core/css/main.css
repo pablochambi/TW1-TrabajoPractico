@@ -22,7 +22,7 @@ h1{
 
 .nav {
     flex: 0 0 auto;
-    width: 250px;
+    /*width: 250px;*/
     border-right: 1px solid #d5d4d6;
     margin-left: 15px;
 }

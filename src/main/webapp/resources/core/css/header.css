@@ -1,0 +1,45 @@
+#iconoMensajeria {
+
+}
+
+#cajaMensajeria {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 117px;
+    width: 370px;
+    height: 559px; /* Ajusta esta altura a tu gusto */
+    border: 1px solid #ccc;
+    background: #fff;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+#cajaMensajeria header {
+    background-color: #0088cc;
+    color: #fff;
+    padding: 10px;
+    font-size: 1.2em;
+    text-align: center;
+}
+#mensajes {
+    padding: 10px;
+    height: 300px; /* Ajusta esta altura para que coincida con la nueva altura de la caja */
+    overflow-y: auto;
+    background-color: #f7f7f7;
+}
+#mensaje {
+    width: calc(100% - 20px);
+    margin: 10px;
+}
+button {
+    background-color: #0088cc;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: calc(100% - 20px);
+    margin: 10px;
+}
+button:hover {
+    background-color: #006699;
+}

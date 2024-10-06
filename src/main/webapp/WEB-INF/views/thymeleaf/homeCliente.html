@@ -31,9 +31,58 @@
             </div>
             <img th:src="@{/images/plotter_1.jpg}" alt="telas sublimadas" style="max-width: 100%;">
         </section>
+        <section>
+            <div id="cajaMensajeria">
+                <header>
+                    Mensajería con Admin
+                </header>
+                <div id="mensajes"></div>
+                <textarea name="mensaje" id="mensaje" placeholder="Escribe tu mensaje aquí"></textarea>
+                <button onclick="enviarMensaje()">Enviar</button>
+            </div>
+        </section>
     </main>
     <div th:insert="templates/footer :: footer"></div>
 <!-- Boostrap core javascript -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('#iconoMensajeria').click(function() {
+            $('#cajaMensajeria').toggle();
+        });
+    });
+
+    function enviarMensaje() {
+        const mensaje = $("#mensaje").val();
+        $.ajax({
+            type: "POST",
+            url: "/spring/enviarMensaje",
+            data: { mensaje: mensaje },
+            dataType: "json",
+            success: function(response) {
+                console.log(response); // Muestra el objeto completo en la consola
+                console.log("ID:", response.id); // Muestra el ID del mensaje
+                console.log("Contenido:", response.contenido); // Muestra el contenido del mensaje
+
+                var nuevoMensaje = `
+                        <div class="mensaje" id="mensaje-${response.id}" data-id="${response.id}">
+                        <span>${response.contenido}</span>
+                        <span class="hora">${new Date(response.hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        <i class="bi bi-check2-all visto" ${response.visto ? 'style="display:block;"' : 'style="display:none;"'}></i>
+                    </div>`;
+                $("#mensajes").append(nuevoMensaje);
+                $("#mensaje").val("");
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                alert("Hubo un problema al enviar el mensaje.");
+            }
+        });
+
+
+    }
+</script>
+
+
 </body>
 </html>

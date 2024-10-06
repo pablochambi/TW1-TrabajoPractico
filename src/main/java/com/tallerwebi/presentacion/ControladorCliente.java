@@ -1,13 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import com.mysql.cj.jdbc.jmx.LoadBalanceConnectionGroupManager;
 import com.tallerwebi.dominio.Archivo;
+import com.tallerwebi.dominio.Mensaje;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.servicios.ServicioArchivo;
+import com.tallerwebi.dominio.servicios.ServicioMensajeria;
 import com.tallerwebi.dominio.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,26 +14,27 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
 
+//@RestController
 @Controller
 public class ControladorCliente {
 
     private ServicioUsuario servicioUsuario;
     private ServicioArchivo servicioArchivo;
+    private ServicioMensajeria servicioMensajeria;
 
     @Autowired
-    public ControladorCliente(ServicioUsuario servicioUsuario,ServicioArchivo servicioArchivo) {
+    public ControladorCliente(ServicioUsuario servicioUsuario,ServicioArchivo servicioArchivo,ServicioMensajeria servicioMensajeria) {
         this.servicioUsuario = servicioUsuario;
         this.servicioArchivo = servicioArchivo;
+        this.servicioMensajeria = servicioMensajeria;
     }
 
     @RequestMapping(path = "/archivos")
@@ -88,14 +86,56 @@ public class ControladorCliente {
     @RequestMapping(path = "/archivos/eliminar", method = RequestMethod.GET)
     public ModelAndView eliminarUnArchivo(@RequestParam("archivo_id") Long archivo_id, HttpServletRequest request) throws IOException {
 
-        HttpSession session = request.getSession(false);
         Long usuario_id = obtenerIdUsuarioPorRequest(request);
-        if (session == null) {return new ModelAndView("redirect:/milogin");}
-
+        if (usuario_id == null) {return new ModelAndView("redirect:/milogin");}
 
         servicioArchivo.eliminarPorId(archivo_id,usuario_id);
 
         return new ModelAndView("redirect:/archivos");
+    }
+
+    @PostMapping("/enviarMensaje")
+    @ResponseBody
+    public MensajeDTO enviarMensaje(@RequestParam("mensaje") String mensaje,HttpServletRequest request) {
+
+        Long adminId = 1L;
+        Long emisorId = (request != null) ? obtenerIdUsuarioPorRequest(request) : 2L; // Usa un valor por defecto si request es null
+        try {
+        // Obtener el emisor (en este caso, un cliente) desde la base de datos
+        Usuario emisor = servicioUsuario.buscarUsuarioPorId(emisorId);
+
+        // Obtener el receptor (administrador) desde la base de datos
+        Usuario receptor = servicioUsuario.buscarUsuarioPorId(adminId);
+
+        // Crear el nuevo mensaje
+        Mensaje nuevoMensaje = new Mensaje();
+        nuevoMensaje.setContenido(mensaje);
+        nuevoMensaje.setHora(new Timestamp(System.currentTimeMillis()));
+        nuevoMensaje.setVisto(false);
+        nuevoMensaje.setEmisor(emisor);
+        nuevoMensaje.setReceptor(receptor);
+
+
+
+        Mensaje msj = servicioMensajeria.guardar(nuevoMensaje);
+
+        MensajeDTO msjDTO= new MensajeDTO();
+
+        msjDTO.setId(msj.getId());
+        msjDTO.setContenido(msj.getContenido());
+        msjDTO.setHora(msj.getHora());
+        msjDTO.setVisto(msj.isVisto());
+        msjDTO.setEmisorId(msj.getEmisor().getId());
+        msjDTO.setReceptorId(msj.getReceptor().getId());
+
+        System.out.println(msjDTO);
+
+        return msjDTO;
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprime el error en los logs del servidor
+            throw new RuntimeException("Error al enviar el mensaje: " + e.getMessage());
+        }
     }
 
 
@@ -103,7 +143,7 @@ public class ControladorCliente {
         return (Long) request.getSession().getAttribute("idUsuario");
     }
 
-    private Usuario obtenerUsuarioPorRequest(HttpServletRequest request) {
+    public Usuario obtenerUsuarioPorRequest(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
 
@@ -113,7 +153,7 @@ public class ControladorCliente {
         return servicioUsuario.buscarUsuarioPorId(usuario_id);
     }
 
-    private Long obtenerIdUsuarioPorRequest(HttpServletRequest request) {
+    public Long obtenerIdUsuarioPorRequest(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         if(session == null) {return null;}

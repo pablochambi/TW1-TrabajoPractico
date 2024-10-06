@@ -25,6 +25,12 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Archivo> misArchivos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "emisor", cascade = CascadeType.ALL)
+    private List<Mensaje> mensajesEnviados;
+
+    @OneToMany(mappedBy = "receptor", cascade = CascadeType.ALL)
+    private List<Mensaje> mensajesRecibidos;
+
     public void addArchivo(Archivo archivo) {
         misArchivos.add(archivo);
         archivo.setUsuario(this);

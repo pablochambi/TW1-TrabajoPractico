@@ -67,7 +67,6 @@ public class ControladorLoginTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-
         ModelAndView modelAndView = result.getModelAndView();
         assert modelAndView != null;
         assertThat(modelAndView.getViewName(), equalToIgnoringCase("milogin"));
