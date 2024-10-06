@@ -99,12 +99,10 @@ public class ControladorCliente {
     public MensajeDTO enviarMensaje(@RequestParam("mensaje") String mensaje,HttpServletRequest request) {
 
         Long adminId = 1L;
-        Long emisorId = (request != null) ? obtenerIdUsuarioPorRequest(request) : 2L; // Usa un valor por defecto si request es null
-        try {
-        // Obtener el emisor (en este caso, un cliente) desde la base de datos
-        Usuario emisor = servicioUsuario.buscarUsuarioPorId(emisorId);
+        Long emisorId =  obtenerIdUsuarioPorRequest(request);
 
-        // Obtener el receptor (administrador) desde la base de datos
+        try {
+        Usuario emisor = servicioUsuario.buscarUsuarioPorId(emisorId);
         Usuario receptor = servicioUsuario.buscarUsuarioPorId(adminId);
 
         // Crear el nuevo mensaje
@@ -114,13 +112,10 @@ public class ControladorCliente {
         nuevoMensaje.setVisto(false);
         nuevoMensaje.setEmisor(emisor);
         nuevoMensaje.setReceptor(receptor);
-
-
-
         Mensaje msj = servicioMensajeria.guardar(nuevoMensaje);
 
+        // Crear el nuevo mensajeDTO
         MensajeDTO msjDTO= new MensajeDTO();
-
         msjDTO.setId(msj.getId());
         msjDTO.setContenido(msj.getContenido());
         msjDTO.setHora(msj.getHora());
@@ -128,12 +123,9 @@ public class ControladorCliente {
         msjDTO.setEmisorId(msj.getEmisor().getId());
         msjDTO.setReceptorId(msj.getReceptor().getId());
 
-        System.out.println(msjDTO);
-
         return msjDTO;
 
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime el error en los logs del servidor
             throw new RuntimeException("Error al enviar el mensaje: " + e.getMessage());
         }
     }
@@ -149,7 +141,7 @@ public class ControladorCliente {
 
         if(session == null) {return null;}
 
-        Long usuario_id =  (Long) request.getSession().getAttribute("idUsuario");
+        Long usuario_id =  (Long) session.getAttribute("idUsuario");
         return servicioUsuario.buscarUsuarioPorId(usuario_id);
     }
 
@@ -157,7 +149,7 @@ public class ControladorCliente {
 
         HttpSession session = request.getSession(false);
         if(session == null) {return null;}
-        return (Long) request.getSession().getAttribute("idUsuario");
+        return (Long) session.getAttribute("idUsuario");
     }
 
 }
