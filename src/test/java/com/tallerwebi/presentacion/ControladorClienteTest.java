@@ -60,7 +60,7 @@ public class ControladorClienteTest {
     private Usuario receptorMock;
     private Mensaje mensajeMock;
     private MensajeDTO mensajeDTOMock;
-/*
+
     @BeforeEach
     public void preparacion() {
         // Inyecciones
@@ -122,6 +122,6 @@ public class ControladorClienteTest {
         verify(servicioUsuarioMock, times(1)).buscarUsuarioPorId(2L);
         verify(servicioUsuarioMock, times(1)).buscarUsuarioPorId(1L);
         verify(servicioMensajeriaMock, times(1)).guardar(any(Mensaje.class));
-    }*/
+    }
 
 }

@@ -2,6 +2,11 @@
 
 }
 
+.logo{
+    height:100px!important;
+    width: 200px;
+}
+
 #cajaMensajeria {
     display: none;
     position: fixed;

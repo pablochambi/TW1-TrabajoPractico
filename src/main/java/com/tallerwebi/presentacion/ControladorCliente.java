@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.mysql.cj.protocol.Message;
 import com.tallerwebi.dominio.Archivo;
 import com.tallerwebi.dominio.Mensaje;
 import com.tallerwebi.dominio.Usuario;
@@ -20,7 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //@RestController
 @Controller
@@ -100,21 +103,31 @@ public class ControladorCliente {
 
         Long adminId = 1L;
         Long emisorId =  obtenerIdUsuarioPorRequest(request);
-
-        try {
         Usuario emisor = servicioUsuario.buscarUsuarioPorId(emisorId);
         Usuario receptor = servicioUsuario.buscarUsuarioPorId(adminId);
 
-        // Crear el nuevo mensaje
-        Mensaje nuevoMensaje = new Mensaje();
-        nuevoMensaje.setContenido(mensaje);
-        nuevoMensaje.setHora(new Timestamp(System.currentTimeMillis()));
-        nuevoMensaje.setVisto(false);
-        nuevoMensaje.setEmisor(emisor);
-        nuevoMensaje.setReceptor(receptor);
-        Mensaje msj = servicioMensajeria.guardar(nuevoMensaje);
+        Mensaje msj = crearYEnviarMensaje(mensaje, emisor, receptor);
+        return crearMensajeDTO(msj);
+    }
 
-        // Crear el nuevo mensajeDTO
+    @GetMapping("/obtenerMensajes")
+    @ResponseBody
+    public List<MensajeDTO> obtenerMensajes(HttpSession session) {
+        Long clienteId = (Long) session.getAttribute("idUsuario");
+        Long adminId = 1L;
+        List<Mensaje> mensajes =  servicioMensajeria.obtenerMensajes(adminId, clienteId);
+        List<MensajeDTO> mensajesDTO = crearListaDeMensajesDTO(mensajes);
+        return mensajesDTO;
+    }
+
+    private List<MensajeDTO> crearListaDeMensajesDTO(List<Mensaje> mensajes) {
+        return mensajes.stream()
+                .map(this::crearMensajeDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    private  MensajeDTO crearMensajeDTO(Mensaje msj) {
         MensajeDTO msjDTO= new MensajeDTO();
         msjDTO.setId(msj.getId());
         msjDTO.setContenido(msj.getContenido());
@@ -122,12 +135,17 @@ public class ControladorCliente {
         msjDTO.setVisto(msj.isVisto());
         msjDTO.setEmisorId(msj.getEmisor().getId());
         msjDTO.setReceptorId(msj.getReceptor().getId());
-
         return msjDTO;
+    }
 
-        } catch (Exception e) {
-            throw new RuntimeException("Error al enviar el mensaje: " + e.getMessage());
-        }
+    private Mensaje crearYEnviarMensaje(String mensaje, Usuario emisor, Usuario receptor) {
+        Mensaje nuevoMensaje = new Mensaje();
+        nuevoMensaje.setContenido(mensaje);
+        nuevoMensaje.setHora(new Timestamp(System.currentTimeMillis()));
+        nuevoMensaje.setVisto(false);
+        nuevoMensaje.setEmisor(emisor);
+        nuevoMensaje.setReceptor(receptor);
+        return servicioMensajeria.guardar(nuevoMensaje);
     }
 
 
