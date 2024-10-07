@@ -1,119 +1,195 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--Head (LINK, STYLE, ETC) -->
+<head th:insert="templates/head :: head"></head>
+<body>
+<!--Header (NAVEGADOR) -->
+<header th:insert="templates/header_admin :: header_admin"></header>
+  <main>
+    <div class="d-flex">
+      <nav class="nav w-25" id="nav">
+        <ul class="list-group list-group-flush w-100">
+          <li class="my-2 list-group-item">
+            <a href="#" class="text-decoration-none d-flex align-items-center fs-5">
+              <div class="icono p-2">
+                <i class="fa-solid fa-rotate-right"></i>
+              </div>
+              Historial de tus pedidos
+            </a>
+          </li>
+          <li class="my-2 list-group-item">
+            <a href="#" class="text-decoration-none d-flex align-items-center fs-5">
+              <div class="icono p-2">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              Crea un nuevo pedido
+            </a>
+          </li>
+          <li class="my-2 list-group-item">
+            <a href="#" class="text-decoration-none d-flex align-items-center fs-5">
+              <div class="icono p-2">
+                <i class="fa-solid fa-question"></i>
+              </div>
+              Consulta nuestro catalogo
+            </a>
+          </li>
+          <li class="my-2 list-group-item">
+            <a th:href="@{/milogin}" class="text-decoration-none d-flex align-items-center fs-5">
+              <div class="icono p-2">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              </div>
+              Cerrar Sesión
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <main class="p-3 w-75">
+        <section class="p-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="p-2 fs-5"><strong>Orden de producción NRO: </strong></p>
+            </div>
+            <div class="w-25">
+              <img th:src="@{/images/LOGO_MARCA_AGUA_OTRO.png}" alt="THACO TEX TEXTILES Logo" class="w-100">
+            </div>
+          </div>
+          <div class="d-flex">
+            <p class="p-2 fs-5"><strong>CLIENTE:</strong> Nombre del Cliente</p>
+            <p class="p-2 fs-5"><strong>FECHA:</strong> 20/09/2024</p>
+          </div>
+          <div class="d-flex">
+            <p class="p-2 fs-5"><strong>TIEMPO DE ENTREGA:</strong> 3 días</p>
+            <p class="p-2 fs-5"><strong>ESTADO:</strong> En Proceso</p>
+          </div>
+        </section>
 
-  <title>Taller Web I</title>
-  <!--ICONOS DE FONT AWESOME-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-  <!-- Boostrap core css -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
-  <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}"/>
-
-</head>
-<body class="p-0">
-<header class="p-4 navbar navbar-expand-lg d-flex justify-content-between bg-dark">
-  <img th:src="@{/images/LOGO_MARCA_AGUA.png}" alt="Logo" style="max-width: 15%;">
-  <div class="p-0 d-flex align-items-center justify-content-end">
-    <img th:src="@{/images/unlam_logo.png}" alt="Logo unlam" class="w-25">
-    <!--ACTION AL PERFIL DEL USUARIO-->
-    <a class="navbar-brand d-block text-light fs-5" th:href="@{/perfil}" >Ver Perfil</a>
-  </div>
-</header>
-<div class="d-flex">
-  <nav class="nav w-25" id="nav">
-    <ul class="list-group list-group-flush w-100">
-      <li class="my-2 list-group-item">
-        <a href="#" class="text-decoration-none d-flex align-items-center fs-5">
-          <div class="icono p-2">
-            <i class="fa-solid fa-rotate-right"></i>
-          </div>
-          Historial de tus pedidos
-        </a>
-      </li>
-      <li class="my-2 list-group-item">
-        <a href="#" class="text-decoration-none d-flex align-items-center fs-5">
-          <div class="icono p-2">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          Crea un nuevo pedido
-        </a>
-      </li>
-      <li class="my-2 list-group-item">
-        <a href="#" class="text-decoration-none d-flex align-items-center fs-5">
-          <div class="icono p-2">
-            <i class="fa-solid fa-question"></i>
-          </div>
-          Consulta nuestro catalogo
-        </a>
-      </li>
-      <li class="my-2 list-group-item">
-        <a th:href="@{/milogin}" class="text-decoration-none d-flex align-items-center fs-5">
-          <div class="icono p-2">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          </div>
-          Cerrar Sesión
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <main class="p-3 w-75">
-    <section class="p-3">
-      <div class="d-flex justify-content-between align-items-center">
+        <!-- Tabla de archivos -->
+        <table class="table table-striped">
+          <tr class="text-center">
+            <th>NOMBRE DEL ARCHIVO</th>
+            <th>METROS</th>
+            <th>COSTO APROXIMADO</th>
+          </tr>
+          <tr class="text-center">
+            <td>archivo1.jpg</td>
+            <td>5</td>
+            <td>$500</td>
+          </tr>
+          <tr class="text-center">
+            <td>archivo2.jpg</td>
+            <td>10</td>
+            <td>$1000</td>
+          </tr>
+          <tr class="text-center">
+            <td>archivo3.jpg</td>
+            <td>3</td>
+            <td>$300</td>
+          </tr>
+        </table>
+        <!-- Total -->
         <div>
-          <p class="p-2 fs-5"><strong>Orden de producción NRO: </strong></p>
+          TOTAL: $1800
         </div>
-        <div class="w-25">
-          <img th:src="@{/images/LOGO_MARCA_AGUA_OTRO.png}" alt="THACO TEX TEXTILES Logo" class="w-100">
-        </div>
-      </div>
-      <div class="d-flex">
-        <p class="p-2 fs-5"><strong>CLIENTE:</strong> Nombre del Cliente</p>
-        <p class="p-2 fs-5"><strong>FECHA:</strong> 20/09/2024</p>
-      </div>
-      <div class="d-flex">
-        <p class="p-2 fs-5"><strong>TIEMPO DE ENTREGA:</strong> 3 días</p>
-        <p class="p-2 fs-5"><strong>ESTADO:</strong> En Proceso</p>
-      </div>
-    </section>
+    </main>
+  </div>
 
-    <!-- Tabla de archivos -->
-    <table class="table table-striped">
-      <tr class="text-center">
-        <th>NOMBRE DEL ARCHIVO</th>
-        <th>METROS</th>
-        <th>COSTO APROXIMADO</th>
-      </tr>
-      <tr class="text-center">
-        <td>archivo1.jpg</td>
-        <td>5</td>
-        <td>$500</td>
-      </tr>
-      <tr class="text-center">
-        <td>archivo2.jpg</td>
-        <td>10</td>
-        <td>$1000</td>
-      </tr>
-      <tr class="text-center">
-        <td>archivo3.jpg</td>
-        <td>3</td>
-        <td>$300</td>
-      </tr>
-    </table>
-    <!-- Total -->
-    <div>
-      TOTAL: $1800
+
+    <!-- Contenedor para la lista de usuarios -->
+    <div id="listaUsuarios" style="display: none;">
+      <!-- La lista de usuarios se cargará aquí -->
     </div>
+
+    <!-- Contenedor para la caja de chat -->
+    <div id="cajaChat" style="display: none;">
+      <div id="mensajesChat"></div>
+      <input type="text" id="mensajeInput" placeholder="Escribe un mensaje...">
+      <button id="enviarMensaje">Enviar</button>
+    </div>
+
+  <section>
+    <div id="cajaDeContactos">
+      <header>Contactos</header>
+      <div id="contactos"></div>
+    </div>
+  </section>
+
   </main>
-</div>
+</body>
 
 <!-- Boostrap core javascript -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 
-</body>
+<script>
+  $(document).ready(function() {
+    // Manejar el clic en el icono de contactos
+    $('#iconoContactos').click(function() {
+      $.ajax({
+        type: "GET",
+        url: "/spring/obtenerUsuariosClientes", // URL para obtener la lista de usuarios
+        dataType: "json",
+        success: function(response) {
+          $('#listaUsuarios').empty().show();
+          response.forEach(function(usuario) {
+            var usuarioHTML = `<div class="usuario" data-id="${usuario.id}">${usuario.nombre}</div>`;
+            $('#listaUsuarios').append(usuarioHTML);
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error("Error: " + error);
+          alert("Hubo un problema al obtener la lista de usuarios.");
+        }
+      });
+    });
+
+    // Manejar el clic en un usuario para abrir la caja de chat
+    $(document).on('click', '.usuario', function() {
+      var usuarioId = $(this).data('id');
+      $('#cajaChat').show();
+      $('#mensajesChat').empty();
+
+      // Obtener mensajes del usuario seleccionado
+      $.ajax({
+        type: "GET",
+        url: "/spring/obtenerMensajesUsuario", // URL para obtener los mensajes del usuario
+        data: { id: usuarioId },
+        dataType: "json",
+        success: function(response) {
+          response.forEach(function(msj) {
+            var mensajeHTML = `<div class="mensaje">${msj.contenido}</div>`;
+            $('#mensajesChat').append(mensajeHTML);
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error("Error: " + error);
+          alert("Hubo un problema al obtener los mensajes.");
+        }
+      });
+    });
+
+    // Enviar un mensaje
+    $('#enviarMensaje').click(function() {
+      var mensaje = $('#mensajeInput').val();
+      var usuarioId = $('.usuario.selected').data('id'); // Suponiendo que el usuario seleccionado tiene la clase 'selected'
+
+      $.ajax({
+        type: "POST",
+        url: "/spring/enviarMensaje", // URL para enviar el mensaje
+        data: { id: usuarioId, mensaje: mensaje },
+        success: function(response) {
+          var mensajeHTML = `<div class="mensaje">${mensaje}</div>`;
+          $('#mensajesChat').append(mensajeHTML);
+          $('#mensajeInput').val(''); // Limpiar el input
+        },
+        error: function(xhr, status, error) {
+          console.error("Error: " + error);
+          alert("Hubo un problema al enviar el mensaje.");
+        }
+      });
+    });
+  });
+
+</script>
+
+
+
 </html>

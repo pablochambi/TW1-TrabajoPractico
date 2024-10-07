@@ -59,56 +59,8 @@
   </div>
 
 
-
-
   <!-- jQuery Script para actualizar la tabla -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-  <script>/*
-    $(document).ready(function() {
-      // Función para cargar la lista de archivos
-      function cargarArchivos() {
-        $.ajax({
-          url: '/spring/archivos/lista', // URL que devuelve la lista de archivos en JSON
-          type: 'GET',
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-            // Limpiar la tabla antes de agregar los nuevos datos
-            $('#tablaArchivos tbody').empty();
-
-            // Mostrar la lista de archivos en la consola
-            console.log('Lista de archivos recibida:', data);
-
-            // Iterar sobre la lista de archivos y añadir filas a la tabla
-            $.each(data, function(index, archivo) {
-
-              let eliminarUrl = `/spring/archivos/eliminar?archivo_id=${archivo.id}`;
-
-              $('#tablaArchivos tbody').append(
-                      `<tr>
-                        <td>${archivo.id}</td>
-                        <td>${archivo.nombre}</td>
-                        <td>${archivo.tipo}</td>
-                        <td>${archivo.peso.toFixed(2)}</td>
-                        <td>
-                          <a href="${eliminarUrl}" class="btn btn-danger btn-sm">Eliminar</a>
-                        </td>
-                      </tr>`
-              );
-            });
-          },
-          error: function(xhr, status, error) {
-            console.error('Error al cargar archivos:', error);
-          }
-        });
-      }
-
-      // Llamar a la función para cargar los archivos al inicializar la página
-      cargarArchivos();
-
-    });*/
-  </script>
 
   <!-- Boostrap core javascript -->
   <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
