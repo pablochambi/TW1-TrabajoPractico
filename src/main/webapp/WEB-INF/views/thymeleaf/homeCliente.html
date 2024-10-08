@@ -2,10 +2,27 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <!--Head (LINK, STYLE, ETC) -->
 <head th:insert="templates/head :: head"></head>
-<body>
+<body >
 <!--Header (NAVEGADOR) -->
-<header th:insert="templates/header :: header"></header>
+<div th:insert="templates/header :: header"></div>
     <main>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel">Notificaciones</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="card">
+                    <div class="card-body text-black">
+                        <h5 class="card-title">Titulo Notificacion</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Nro Pedido</h6>
+                        <p class="card-text">Su pedido tiene demora</p>
+                        <a href="#" class="card-link">Descartar</a>
+                        <a href="#" class="card-link">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <section class="w-100 position-relative">
             <div class="d-flex justify-content-center align-items-center flex-column position-absolute top-0 bottom-0 bg-black bg-opacity-50 w-100 text-light text-center">
                 <h1 class="text-center p-4 m-0">Bienvenido  <span th:text="${nombre}"></span></h1>
@@ -30,23 +47,9 @@
             </div>
             <img th:src="@{/images/plotter_1.jpg}" alt="telas sublimadas" style="max-width: 100%;">
         </section>
-        <section>
-            <div id="cajaMensajeria">
-                <header>
-                    Mensajería con Admin
-                </header>
-                <div id="mensajes"></div>
-                <textarea name="mensaje" id="mensaje" placeholder="Escribe tu mensaje aquí"></textarea>
-                <button onclick="enviarMensaje()">Enviar</button>
-            </div>
-        </section>
     </main>
     <div th:insert="templates/footer :: footer"></div>
-
-</body>
 <!-- Boostrap core javascript -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-
-<script type="text/javascript" th:src="@{/js/mensajeriaCliente.js}"></script>
-
+</body>
 </html>
