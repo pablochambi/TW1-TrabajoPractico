@@ -3,11 +3,12 @@ package com.tallerwebi.dominio;
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Notificacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idNotificacion;
+    private Long id;
     private String tituloNotificacion;
     private String descripcionNotificacion;
     private Date fechaNotificacion;
@@ -15,20 +16,8 @@ public class Notificacion {
     private EstadoNotificacion estado = EstadoNotificacion.NUEVA;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-
-    @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
-
-    public Long getIdNotificacion() {
-        return idNotificacion;
-    }
-
-    public void setIdNotificacion(Long idNotificacion) {
-        this.idNotificacion = idNotificacion;
-    }
 
     public String getTituloNotificacion() {
         return tituloNotificacion;
@@ -60,5 +49,21 @@ public class Notificacion {
 
     public void setEstado(EstadoNotificacion estado) {
         this.estado = estado;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

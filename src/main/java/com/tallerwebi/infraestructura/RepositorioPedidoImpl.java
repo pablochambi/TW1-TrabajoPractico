@@ -2,12 +2,15 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Estado;
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.repositorios.RepositorioPedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -15,6 +18,7 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
 
     SessionFactory sessionFactory;
 
+    @Autowired
     public RepositorioPedidoImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
@@ -57,5 +61,22 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
             //Actualiza el estado del pedido buscado
             session.update(pedidoBuscado);
         }
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosVencidos() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Pedido.class)
+                .add(Restrictions.lt("fechaEntrega", new Date()))
+                .list();
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosVencidosPorUsuario(Usuario usuario) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Pedido.class)
+                .add(Restrictions.lt("fechaEntrega", new Date()))
+                .add(Restrictions.eq("usuario", usuario))
+                .list();
     }
 }

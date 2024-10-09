@@ -6,17 +6,17 @@
 <!--Header (NAVEGADOR) -->
 <div th:insert="templates/header :: header"></div>
     <main>
-        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNotificaciones" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Notificaciones</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <div class="card">
+            <div class="offcanvas-body" >
+                <div th:each="notificacion : ${notificaciones}" class="card">
                     <div class="card-body text-black">
-                        <h5 class="card-title">Titulo Notificacion</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Nro Pedido</h6>
-                        <p class="card-text">Su pedido tiene demora</p>
+                        <h5 class="card-title" th:text="${notificacion.tituloNotificacion+' Id notificacion: '+notificacion.id}"></h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${'Pedido id: '+notificacion.getPedido().getId()}"></h6>
+                        <p class="card-text" th:text="${notificacion.descripcionNotificacion}"></p>
                         <a href="#" class="card-link">Descartar</a>
                         <a href="#" class="card-link">Eliminar</a>
                     </div>

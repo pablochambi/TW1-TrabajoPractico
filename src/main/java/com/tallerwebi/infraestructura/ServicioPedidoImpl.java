@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -117,6 +118,16 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     private void guardarEnCarpeta(MultipartFile file, Long usuario_id) {
         servicioArchivo.guardarEnCarpeta(file, usuario_id);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosVencidos() {
+        return repositorioPedido.obtenerPedidosVencidos();
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosVencidosPorUsuario(Usuario usuario) {
+        return repositorioPedido.obtenerPedidosVencidosPorUsuario(usuario);
     }
 }
 

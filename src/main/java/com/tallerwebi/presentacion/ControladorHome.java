@@ -1,11 +1,14 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Notificacion;
+import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.servicios.ServicioNotificacion;
+import com.tallerwebi.dominio.servicios.ServicioPedido;
 import com.tallerwebi.dominio.servicios.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,15 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ControladorHome {
 
     private ServicioUsuario servicioUsuario;
+    private ServicioNotificacion servicioNotificacion;
+    private ServicioPedido servicioPedido;
 
     @Autowired
-    public ControladorHome(ServicioUsuario servicioUsuario) {
+    public ControladorHome(ServicioUsuario servicioUsuario, ServicioNotificacion servicioNotificacion, ServicioPedido servicioPedido) {
         this.servicioUsuario = servicioUsuario;
+        this.servicioNotificacion = servicioNotificacion;
+        this.servicioPedido = servicioPedido;
     }
 
 
@@ -37,11 +46,18 @@ public class ControladorHome {
             String rol = (String) session.getAttribute("ROL");
 
             Usuario usuario = servicioUsuario.buscarUsuarioPorId(idUsuario);
+            List<Pedido> pedidosVencidos = servicioPedido.obtenerPedidosVencidosPorUsuario(usuario);
+            List<Notificacion> notificaciones = new ArrayList<>();
+            for (Pedido pedido : pedidosVencidos) {
+                notificaciones.addAll(servicioNotificacion.obtenerNotificacionesPedido(pedido));
+            }
 
             model.put("idUsuario", idUsuario);
             model.put("email", usuario.getEmail());
             model.put("nombre", usuario.getNombre());
             model.put("username", usuario.getUsername());
+            model.put("notificaciones", notificaciones);
+            System.out.println(notificaciones);
 
             if (rol.equals("CLIENTE")) {
                 return new ModelAndView("homeCliente", model);

@@ -20,6 +20,7 @@ public class Pedido {
     private Estado estado = Estado.EN_ESPERA;
     private Boolean conCalandrado = false;
     private Integer tiempoEstimadoEntrega;
+    private Date fechaEntrega;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -31,6 +32,9 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Archivo> archivos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notificacion> notificaciones = new ArrayList<>();
 
 
     public Maquina getMaquina() {
@@ -95,5 +99,21 @@ public class Pedido {
 
     public void setTiempoEstimadoEntrega(Integer tiempoEstimadoEntrega) {
         this.tiempoEstimadoEntrega = tiempoEstimadoEntrega;
+    }
+
+    public Date getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(Date fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public List<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(List<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
     }
 }
