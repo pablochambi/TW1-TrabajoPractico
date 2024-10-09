@@ -11,6 +11,9 @@ public class Archivo {
     private String tipo;
     private Double peso;
     private String direccion;
+    private Integer metros;
+    private Boolean impreso = false;
+    private Integer precio;
 
     @Lob  // ESTO ES PARA DECIR QUE EL MYSQL PERMITA ARCHIVOS MAS PESADOS
     @Column(name = "datos", columnDefinition = "LONGBLOB")
@@ -83,4 +86,16 @@ public class Archivo {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    public Integer getMetros() { return metros; }
+
+    public void setMetros(Integer metros) { this.metros = metros; }
+
+    public Boolean getImpreso() { return impreso; }
+
+    public void setImpreso(Boolean impreso) { this.impreso = impreso; }
+
+    public Integer getPrecio() { return precio; }
+
+    public void setPrecio(Integer precio) { this.precio = precio; }
 }

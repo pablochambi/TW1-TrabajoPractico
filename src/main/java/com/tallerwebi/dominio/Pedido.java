@@ -22,11 +22,10 @@ public class Pedido {
     private Integer tiempoEstimadoEntrega;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "maquina_id")
+    //@JoinColumn(name = "maquina_id")
     private Maquina maquina;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)

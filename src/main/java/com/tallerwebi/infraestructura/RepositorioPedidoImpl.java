@@ -2,6 +2,7 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Estado;
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.repositorios.RepositorioPedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,6 +47,14 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
         return session.createCriteria(Pedido.class)
                       .add(Restrictions.eq("estado", estado))
                       .list();
+    }
+
+    @Override
+    public List<Pedido> buscarPorUsuario(Usuario usuario) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Pedido.class)
+                .add(Restrictions.eq("usuario", usuario))
+                .list();
     }
 
     @Override

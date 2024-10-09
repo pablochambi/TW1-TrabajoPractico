@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--Head (LINK, STYLE, ETC) -->
+<head th:insert="templates/head :: head"></head>
+<body>
+<!--Header (NAVEGADOR) -->
+<div th:insert="templates/headerAdmin :: header"></div>
+<main>
+  <p th:text="${archivo}"></p>
+  <p th:text="${metros}"></p>
+</main>
+</body>
+</html>

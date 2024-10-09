@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!--Head (LINK, STYLE, ETC) -->
+<head th:insert="templates/head :: head"></head>
+<body class="p-0">
+<!--Header (NAVEGADOR) -->
+<div th:insert="templates/headerAdmin :: header"></div>
+<main>
+    <div class="container mt-5" th:each="pedido : ${pedidos}">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Código: <span th:text="${pedido.id}"></span></h5>
+                        <p class="card-text">Nombre: <span th:text="${pedido.nombre}"></span></p>
+                        <p class="card-text">Fecha de Creación: <span th:text="${pedido.fechaCreacion}"></span></p>
+                        <p class="card-text">Estado:
+                            <span th:text="${pedido.estado}"></span>
+                        </p>
+                        <a th:href="@{/pedidoSeleccionado(id=${pedido.id})}" class="btn btn-info">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:insert="templates/footer :: footer"></div>
+<!-- Boostrap core javascript -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
-
 <header th:fragment="header" >
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #c50000!important;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <!-- Logo -->
             <a class="m-auto w-25 text-center" href="#" style=" height:100px!important;">
-                <img src="/spring/images/LOGO_MARCA_AGUA.png" alt="Logo" style=" height:100px!important;" class="w-100 py-4 px-5">
+                <img src="/spring/images/LOGO_MARCA_AGUA.png" alt="Logo" style=" height:100px!important;" class="w-75">
             </a>
             <!-- Botón para móviles -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,8 +14,15 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center" style="display: flex; gap: 12px; align-items: center;">
                     <li class="nav-item p-2">
-                        <a class="nav-link text-light" aria-current="page"  th:href="@{/home}">Inicio</a>
+                        <a class="nav-link text-light" aria-current="page"  th:href="@{/homeAdmin}">Inicio</a>
                     </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-light" href="#">Gestionar Telas</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-light" href="#">Gestionar Telas</a>
+                    </li>
+                    <!--
                     <li class="nav-item p-2">
                         <a class="nav-link text-light" th:href="@{/formPedido}">Hacer Pedido</a>
                     </li>
@@ -34,21 +38,18 @@
                     <li class="nav-item p-2">
                         <a class="nav-link text-light" th:href="@{/archivos}">Archivos</a>
                     </li>
-                    <li class="nav-item p-2">
-                        <a class="nav-link text-light" href="#">Gestionar Telas</a>
-                    </li>
+
                     <li class="nav p-2 d-flex flex-row align-items-center justify-content-around">
-                        <!-- Usuario y logo de usuario -->
+
                         <a th:href="@{/perfil/(email=${email})}" class="navbar-text me-3 text-light">
                             <span th:text="${nombre}"> </span>
                         </a>
                         <a href="#" class="nav-link">
                             <img th:src="@{/images/perfil.png}" alt="Usuario" width="50" height="50" class="d-inline-block align-text-top">
                         </a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
         </div>
     </nav>
 </header>
-</html>
